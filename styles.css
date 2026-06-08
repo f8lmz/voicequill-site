@@ -1,0 +1,96 @@
+/* ============================================================
+   VoiceQuill — Brand tokens & base styles
+   v1.0 — Foundation
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap');
+
+:root {
+  /* ─── Colors (locked) ─── */
+  --color-coral:      #FE5530;
+  --color-near-black: #100E0B;
+  --color-off-white:  #F2EFE7;
+  --color-graphite:   #3D3833;
+  --color-mute:       #8A8A84;  /* matches app's textSecondary: Off-White @ 0.55 over Near-Black */
+
+  /* ─── Type ─── */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+
+  /* ─── Type scale ─── */
+  --size-hero:    clamp(56px, 9vw, 96px);
+  --size-h1:      clamp(40px, 5vw, 56px);
+  --size-h2:      clamp(28px, 3.5vw, 36px);
+  --size-body:    17px;
+  --size-small:   14px;
+  --size-caption: 12px;
+
+  /* ─── Spacing ─── */
+  --space-xs:  8px;
+  --space-sm:  16px;
+  --space-md:  24px;
+  --space-lg:  48px;
+  --space-xl:  96px;
+  --space-xxl: 160px;
+}
+
+/* ─── Reset ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--size-body);
+  line-height: 1.5;
+  color: var(--color-off-white);
+  background: var(--color-near-black);
+  min-height: 100vh;
+}
+
+/* ─── Day 1 placeholder centering ─── */
+.day-one-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.wordmark {
+  font-weight: 900;
+  font-size: var(--size-hero);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.wordmark .voice { color: var(--color-off-white); }
+.wordmark .quill { color: var(--color-coral); }
+
+.tagline {
+  margin-top: var(--space-lg);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--color-mute);
+  text-transform: uppercase;
+}
+
+.day-one-note {
+  margin-top: var(--space-xxl);
+  font-size: var(--size-caption);
+  color: var(--color-graphite);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
