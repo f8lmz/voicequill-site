@@ -1,25 +1,29 @@
 /* ============================================================
-   VoiceQuill — Brand tokens & base styles
-   v1.0 — Foundation
+   VoiceQuill — Marketing site
+   v1.0 — Day 2 (Hero)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap');
 
 :root {
   /* ─── Colors (locked) ─── */
-  --color-coral:      #FE5530;
-  --color-near-black: #100E0B;
-  --color-off-white:  #F2EFE7;
-  --color-graphite:   #3D3833;
-  --color-mute:       #8A8A84;  /* matches app's textSecondary: Off-White @ 0.55 over Near-Black */
+  --color-coral:        #FE5530;
+  --color-coral-hover:  #FF6A48;        /* +10% lightness for hover */
+  --color-near-black:   #100E0B;
+  --color-off-white:    #F2EFE7;
+  --color-graphite:     #3D3833;
+  --color-mute:         #8A8A84;        /* secondary type on dark — matches app */
+  --color-surface-1:    #1A1816;        /* one step up from Near-Black for inputs */
+  --color-border:       #2A2622;        /* subtle hairline */
 
   /* ─── Type ─── */
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
 
   /* ─── Type scale ─── */
-  --size-hero:    clamp(56px, 9vw, 96px);
+  --size-hero:    clamp(64px, 11vw, 144px);
   --size-h1:      clamp(40px, 5vw, 56px);
   --size-h2:      clamp(28px, 3.5vw, 36px);
+  --size-subhead: clamp(20px, 2.2vw, 28px);
   --size-body:    17px;
   --size-small:   14px;
   --size-caption: 12px;
@@ -31,6 +35,13 @@
   --space-lg:  48px;
   --space-xl:  96px;
   --space-xxl: 160px;
+
+  /* ─── Layout ─── */
+  --max-content: 1120px;
+  --nav-height:  72px;
+
+  /* ─── Motion ─── */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* ─── Reset ─── */
@@ -46,6 +57,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -57,40 +69,204 @@ body {
   min-height: 100vh;
 }
 
-/* ─── Day 1 placeholder centering ─── */
-.day-one-hero {
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+}
+
+/* ─────────────────────────────────────────────────────────
+   NAV
+   ───────────────────────────────────────────────────────── */
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-lg);
+  background: rgba(16, 14, 11, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+  border-bottom: 1px solid transparent;
+  transition: border-color 200ms var(--ease);
+}
+
+.nav.is-scrolled {
+  border-bottom-color: var(--color-border);
+}
+
+.nav-brand {
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.nav-brand .voice { color: var(--color-off-white); }
+.nav-brand .quill { color: var(--color-coral); }
+
+.nav-links {
+  display: flex;
+  gap: var(--space-lg);
+  font-size: var(--size-small);
+  font-weight: 500;
+  color: var(--color-mute);
+}
+
+.nav-links a {
+  transition: color 150ms var(--ease);
+}
+
+.nav-links a:hover {
+  color: var(--color-off-white);
+}
+
+/* ─────────────────────────────────────────────────────────
+   HERO
+   ───────────────────────────────────────────────────────── */
+
+.hero {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-md);
   text-align: center;
+  padding: calc(var(--nav-height) + var(--space-xl)) var(--space-md) var(--space-xl);
 }
 
-.wordmark {
+.hero-wordmark {
   font-weight: 900;
   font-size: var(--size-hero);
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
 }
 
-.wordmark .voice { color: var(--color-off-white); }
-.wordmark .quill { color: var(--color-coral); }
+.hero-wordmark .voice { color: var(--color-off-white); }
+.hero-wordmark .quill { color: var(--color-coral); }
 
-.tagline {
+.hero-subhead {
   margin-top: var(--space-lg);
-  font-size: 14px;
+  max-width: 640px;
+  font-size: var(--size-subhead);
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: var(--color-off-white);
+}
+
+.hero-tagline {
+  margin-top: var(--space-md);
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.18em;
   color: var(--color-mute);
   text-transform: uppercase;
 }
 
-.day-one-note {
-  margin-top: var(--space-xxl);
+/* ─── Waitlist form ─── */
+
+.waitlist {
+  margin-top: var(--space-lg);
+  display: flex;
+  gap: var(--space-xs);
+  width: 100%;
+  max-width: 460px;
+  padding: 6px;
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition: border-color 200ms var(--ease);
+}
+
+.waitlist:focus-within {
+  border-color: var(--color-coral);
+}
+
+.waitlist-input {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: var(--size-small);
+  color: var(--color-off-white);
+}
+
+.waitlist-input::placeholder {
+  color: var(--color-mute);
+}
+
+.waitlist-button {
+  padding: 12px 20px;
+  font-size: var(--size-small);
+  font-weight: 600;
+  color: var(--color-near-black);
+  background: var(--color-coral);
+  border-radius: 8px;
+  letter-spacing: -0.01em;
+  transition: background 150ms var(--ease), transform 100ms var(--ease);
+}
+
+.waitlist-button:hover {
+  background: var(--color-coral-hover);
+}
+
+.waitlist-button:active {
+  transform: scale(0.98);
+}
+
+.hero-reassurance {
+  margin-top: var(--space-md);
   font-size: var(--size-caption);
+  letter-spacing: 0.06em;
   color: var(--color-graphite);
-  letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.hero-reassurance .sep {
+  margin: 0 8px;
+  opacity: 0.6;
+}
+
+/* ─────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .nav {
+    padding: 0 var(--space-md);
+  }
+
+  .nav-links {
+    gap: var(--space-md);
+  }
+
+  .waitlist {
+    flex-direction: column;
+    padding: 8px;
+  }
+
+  .waitlist-button {
+    width: 100%;
+    padding: 14px;
+  }
 }

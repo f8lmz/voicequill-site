@@ -3,19 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VoiceQuill — Fast. Private. Uniquely yours.</title>
-  <meta name="description" content="Local-first AI voiceover for Mac. Fast, private, uniquely yours.">
+  <title>VoiceQuill — Local AI voiceovers for Mac</title>
+  <meta name="description" content="Studio-quality voiceovers, generated on your Mac. Fast, private, uniquely yours.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <main class="day-one-hero">
-    <h1 class="wordmark">
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-brand">
       <span class="voice">Voice</span><span class="quill">Quill</span>
-    </h1>
-    <p class="tagline">Fast. Private. Uniquely yours.</p>
-    <p class="day-one-note">Coming soon · Day 1</p>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <section class="hero">
+      <h1 class="hero-wordmark">
+        <span class="voice">Voice</span><span class="quill">Quill</span>
+      </h1>
+
+      <!--
+        SUBHEAD A/B TEST POOL
+        Currently active: A (Studio-quality)
+        ─────────────────────────────────────────────────────
+        A — Studio-quality, primary
+           "Studio-quality audio, generated on your device."
+
+        B — Keyword-rich, for paid search / cold IG
+           "Local AI voiceovers for Mac. Studio-quality audio, generated on your device."
+
+        C — Mechanical / direct (reserve)
+           "Type a script. Pick a voice. Hit generate. Done — locally."
+
+        D — Quality + privacy as twin lead (reserve)
+           "Studio-quality voiceovers, generated on your Mac. Not in the cloud."
+      -->
+      <p class="hero-subhead">
+        Studio-quality audio, generated on your device.
+      </p>
+
+      <p class="hero-tagline">Fast. Private. Uniquely yours.</p>
+
+      <form class="waitlist" id="waitlist">
+        <input
+          type="email"
+          class="waitlist-input"
+          placeholder="your@email.com"
+          required
+          aria-label="Email address"
+        >
+        <button type="submit" class="waitlist-button">Join the waitlist</button>
+      </form>
+
+      <p class="hero-reassurance">
+        Free during beta
+        <span class="sep">·</span>
+        No spam
+        <span class="sep">·</span>
+        Mac
+        <span class="sep">·</span>
+        Coming soon
+      </p>
+    </section>
+
   </main>
+
+  <script>
+    // Nav border-on-scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > 8);
+    });
+
+    // Waitlist form — placeholder handler until Tally is wired
+    document.getElementById('waitlist').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Tally not wired yet — Day 2 afternoon.');
+    });
+  </script>
 
 </body>
 </html>
