@@ -1,6 +1,6 @@
 /* ============================================================
    VoiceQuill — Marketing site
-   v1.0 — Day 2 (Hero)
+   v1.2 — Day 2 (Hero + Web3Forms waitlist)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap');
@@ -8,13 +8,13 @@
 :root {
   /* ─── Colors (locked) ─── */
   --color-coral:        #FE5530;
-  --color-coral-hover:  #FF6A48;        /* +10% lightness for hover */
+  --color-coral-hover:  #FF6A48;
   --color-near-black:   #100E0B;
   --color-off-white:    #F2EFE7;
   --color-graphite:     #3D3833;
-  --color-mute:         #8A8A84;        /* secondary type on dark — matches app */
-  --color-surface-1:    #1A1816;        /* one step up from Near-Black for inputs */
-  --color-border:       #2A2622;        /* subtle hairline */
+  --color-mute:         #8A8A84;
+  --color-surface-1:    #1A1816;
+  --color-border:       #2A2622;
 
   /* ─── Type ─── */
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
@@ -215,6 +215,10 @@ input {
   color: var(--color-mute);
 }
 
+.waitlist-input:disabled {
+  opacity: 0.5;
+}
+
 .waitlist-button {
   padding: 12px 20px;
   font-size: var(--size-small);
@@ -226,12 +230,37 @@ input {
   transition: background 150ms var(--ease), transform 100ms var(--ease);
 }
 
-.waitlist-button:hover {
+.waitlist-button:hover:not(:disabled) {
   background: var(--color-coral-hover);
 }
 
-.waitlist-button:active {
+.waitlist-button:active:not(:disabled) {
   transform: scale(0.98);
+}
+
+.waitlist-button:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.waitlist-success {
+  width: 100%;
+  padding: 14px 18px;
+  font-size: var(--size-small);
+  font-weight: 500;
+  text-align: center;
+  color: var(--color-coral);
+  letter-spacing: -0.01em;
+}
+
+/* Honeypot — invisible to humans, visible to bots */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hero-reassurance {

@@ -49,13 +49,24 @@
 
       <p class="hero-tagline">Fast. Private. Uniquely yours.</p>
 
-      <form class="waitlist" id="waitlist">
+      <form class="waitlist" id="waitlist" novalidate>
+        <!-- Web3Forms config -->
+        <input type="hidden" name="access_key" value="0b94163f-ec1e-4e2a-b6ce-8b0b0ccb43fc">
+        <input type="hidden" name="subject" value="VoiceQuill waitlist signup">
+        <input type="hidden" name="from_name" value="VoiceQuill Waitlist">
+
+        <!-- Honeypot spam protection — bots fill this in, humans don't see it -->
+        <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off">
+
+        <!-- The actual email field -->
         <input
           type="email"
+          name="email"
           class="waitlist-input"
           placeholder="your@email.com"
           required
           aria-label="Email address"
+          autocomplete="email"
         >
         <button type="submit" class="waitlist-button">Join the waitlist</button>
       </form>
@@ -74,16 +85,63 @@
   </main>
 
   <script>
-    // Nav border-on-scroll
+    // ─── Nav border-on-scroll ───
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('is-scrolled', window.scrollY > 8);
     });
 
-    // Waitlist form — placeholder handler until Tally is wired
-    document.getElementById('waitlist').addEventListener('submit', (e) => {
+    // ─── Waitlist submission to Web3Forms ───
+    const form = document.getElementById('waitlist');
+    const input = form.querySelector('.waitlist-input');
+    const button = form.querySelector('.waitlist-button');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      alert('Tally not wired yet — Day 2 afternoon.');
+
+      const email = input.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        input.focus();
+        return;
+      }
+
+      // UI: loading state
+      const originalLabel = button.textContent;
+      button.textContent = 'Joining…';
+      button.disabled = true;
+      input.disabled = true;
+
+      ttry {
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        console.log('Web3Forms response:', data);
+
+        if (data.success) {
+          form.innerHTML = `
+            <p class="waitlist-success">
+              You're on the list. We'll be in touch.
+            </p>
+          `;
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+      } catch (err) {
+        button.textContent = 'Try again';
+        button.disabled = false;
+        input.disabled = false;
+        console.error('Waitlist error:', err);
+      }
     });
   </script>
 
