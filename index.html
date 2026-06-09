@@ -105,13 +105,12 @@
         return;
       }
 
-      // UI: loading state
       const originalLabel = button.textContent;
       button.textContent = 'Joining…';
       button.disabled = true;
       input.disabled = true;
 
-      ttry {
+      try {
         const formData = new FormData(form);
         const payload = Object.fromEntries(formData.entries());
 
