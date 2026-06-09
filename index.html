@@ -105,7 +105,6 @@
         return;
       }
 
-      const originalLabel = button.textContent;
       button.textContent = 'Joining…';
       button.disabled = true;
       input.disabled = true;
@@ -127,11 +126,7 @@
         console.log('Web3Forms response:', data);
 
         if (data.success) {
-          form.innerHTML = `
-            <p class="waitlist-success">
-              You're on the list. We'll be in touch.
-            </p>
-          `;
+          form.innerHTML = '<p class="waitlist-success">You\'re on the list. We\'ll be in touch.</p>';
         } else {
           throw new Error(data.message || 'Submission failed');
         }
