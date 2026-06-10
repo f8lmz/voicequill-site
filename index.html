@@ -51,16 +51,16 @@
 
       <form class="waitlist" id="waitlist" novalidate>
         <!-- Web3Forms config -->
-        <input type="hidden" name="access_key" value="0b94163f-ec1e-4e2a-b6ce-8b0b0ccb43fc">
-        <input type="hidden" name="subject" value="VoiceQuill waitlist signup">
-        <input type="hidden" name="from_name" value="VoiceQuill Waitlist">
-        <input type="hidden" name="name" value="Waitlist signup">
+        <!input type="hidden" name="access_key" value="0b94163f-ec1e-4e2a-b6ce-8b0b0ccb43fc">
+        <!input type="hidden" name="subject" value="VoiceQuill waitlist signup">
+        <!input type="hidden" name="from_name" value="VoiceQuill Waitlist">
+        <!input type="hidden" name="name" value="Waitlist signup">
 
         <!-- Honeypot spam protection — bots fill this in, humans don't see it -->
         <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off">
 
         <!-- The actual email field -->
-        <input
+        <!input
           type="email"
           name="user_email"
           class="waitlist-input"
@@ -69,11 +69,22 @@
           aria-label="Email address"
           autocomplete="email"
         >
-        <!input type="email" name="email">
-        <!input type="email" name="userEmail">
-        <!input type="email" name="e-mail">
-        <!input type="email" name="from_email">
+        
+        <! trial with web3 code>
+        <form action="https://api.web3forms.com/submit" method="POST">
+
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+
+      
+        <input type="email" name="email" required>
+        
+        <input type="hidden" name="redirect" value="https://web3forms.com/success">
+
+</form>
+
+
         <button type="submit" class="waitlist-button">Join the waitlist</button>
+      
       </form>
 
       <p class="hero-reassurance">
