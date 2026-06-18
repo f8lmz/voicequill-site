@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VoiceQuill — Homepage</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --coral:#FE5530;
+  --near:#100E0B;
+  --near-2:#1A1816;
+  --off:#F2EFE7;
+  --graphite:#3D3833;
+  --secondary:#8C887F;
+  --muted:#6E6B63;
+  --line:#2B2722;
+  --soft:#E4DED2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Geist',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--near);color:var(--off);line-height:1.45;}
+a{text-decoration:none;color:inherit}.page{overflow:hidden;background:radial-gradient(circle at 75% 8%, rgba(254,85,48,.16), transparent 33%),linear-gradient(180deg,var(--near) 0%,#15120f 58%,var(--near) 100%)}
+.container{width:min(1160px,calc(100% - 40px));margin:0 auto}.nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;position:relative;z-index:5}.wordmark{font-weight:900;font-size:28px;letter-spacing:-.045em;line-height:1}.wordmark .voice{color:var(--off)}.wordmark .quill{color:var(--coral)}.navlinks{display:flex;gap:28px;color:var(--secondary);font-size:14px;font-weight:500}.navcta{border:1px solid rgba(242,239,231,.22);border-radius:999px;padding:10px 16px;color:var(--off);font-size:14px;font-weight:500}.hero{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center;padding:88px 0 96px}.eyebrow{font-size:12px;font-weight:500;letter-spacing:.18em;color:var(--coral);text-transform:uppercase;margin-bottom:22px}.hero h1{font-size:clamp(56px,7.2vw,96px);font-weight:900;letter-spacing:-.055em;line-height:.91;max-width:780px}.hero h1 .break{display:block}.tagline{font-size:13px;font-weight:500;letter-spacing:.18em;color:var(--secondary);margin:30px 0 24px;text-transform:uppercase}.lead{font-size:20px;color:#D5CEC3;max-width:620px;line-height:1.42;margin-bottom:34px}.cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:15px 22px;font-size:15px;font-weight:700}.btn-primary{background:var(--coral);color:var(--near)}.btn-secondary{border:1px solid rgba(242,239,231,.2);color:var(--off)}.note{font-size:13px;color:var(--secondary);margin-top:18px}.device{position:relative}.device-card{background:linear-gradient(180deg,#211d19,#120f0c);border:1px solid rgba(242,239,231,.09);border-radius:28px;padding:22px;box-shadow:0 35px 80px rgba(0,0,0,.36)}.appbar{height:44px;display:flex;align-items:center;justify-content:space-between;color:var(--secondary);font-size:13px}.qchip{width:38px;height:38px;border-radius:10px;background:var(--coral);color:var(--near);font-weight:900;display:grid;place-items:center;font-size:24px;letter-spacing:-.08em}.editor{background:#0B0907;border:1px solid rgba(242,239,231,.08);border-radius:20px;padding:22px;margin-top:14px}.editor-label{color:var(--secondary);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}.script{font-size:24px;line-height:1.18;font-weight:700;letter-spacing:-.03em}.wave{display:flex;align-items:end;gap:8px;height:112px;margin:32px 0 20px}.bar{width:9px;border-radius:999px;background:var(--coral);opacity:.94}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.pill{background:#211d19;border:1px solid rgba(242,239,231,.08);border-radius:999px;padding:10px;text-align:center;color:#D5CEC3;font-size:12px;font-weight:500}.status{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:var(--secondary);font-size:12px}.dot{width:7px;height:7px;background:var(--coral);border-radius:50%;display:inline-block;margin-right:8px}.proof{border-top:1px solid rgba(242,239,231,.08);border-bottom:1px solid rgba(242,239,231,.08);padding:20px 0;margin-top:-20px}.proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.proof-item{font-size:13px;color:var(--secondary)}.proof-item strong{display:block;font-size:17px;color:var(--off);margin-bottom:3px}.section{padding:110px 0}.section.light{background:var(--off);color:var(--near)}.section-head{display:flex;justify-content:space-between;gap:32px;align-items:end;margin-bottom:42px}.section-kicker{color:var(--coral);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:14px}.section h2{font-size:clamp(38px,5vw,68px);font-weight:900;letter-spacing:-.052em;line-height:.94;max-width:760px}.section-copy{max-width:430px;color:var(--secondary);font-size:18px}.light .section-copy{color:var(--graphite)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#17130f;border:1px solid rgba(242,239,231,.08);border-radius:22px;padding:28px;min-height:245px}.card.light-card{background:#E8E2D7;border:1px solid rgba(16,14,11,.08)}.card-number{color:var(--coral);font-size:13px;font-weight:700;margin-bottom:52px}.card h3{font-size:25px;letter-spacing:-.03em;line-height:1.04;margin-bottom:14px}.card p{color:var(--secondary);font-size:15px}.light-card p{color:var(--graphite)}.use-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.use{background:#E8E2D7;border-radius:22px;padding:28px;display:flex;gap:20px;align-items:flex-start}.icon{width:44px;height:44px;border-radius:12px;background:var(--coral);color:var(--near);display:grid;place-items:center;font-weight:900;flex:0 0 auto}.use h3{font-size:24px;letter-spacing:-.03em;margin-bottom:8px}.use p{color:var(--graphite)}.compare-wrap{background:#17130f;border:1px solid rgba(242,239,231,.08);border-radius:26px;overflow:hidden}.compare-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;border-bottom:1px solid rgba(242,239,231,.08)}.compare-row:last-child{border-bottom:0}.compare-cell{padding:18px 22px;color:#D5CEC3}.compare-head .compare-cell{font-size:13px;color:var(--secondary);letter-spacing:.12em;text-transform:uppercase;font-weight:700}.yes{color:var(--coral);font-weight:900}.no{color:var(--secondary)}.final{padding:110px 0 74px;text-align:center;background:var(--near)}.final h2{font-size:clamp(48px,7vw,88px);font-weight:900;letter-spacing:-.055em;line-height:.92;max-width:840px;margin:0 auto 26px}.final p{font-size:19px;color:#D5CEC3;margin:0 auto 34px;max-width:620px}.footer{padding:28px 0;border-top:1px solid rgba(242,239,231,.08);color:var(--secondary);font-size:13px;display:flex;justify-content:space-between}.mobile-only{display:none}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:58px 0 72px}.navlinks{display:none}.section-head{display:block}.section-copy{margin-top:18px}.cards,.proof-grid,.use-grid{grid-template-columns:1fr}.compare-row{grid-template-columns:1.2fr .8fr .8fr}.compare-cell{padding:15px 13px;font-size:13px}.footer{display:block}.device-card{padding:14px}.script{font-size:20px}.mobile-only{display:block}}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="container nav">
+  <a class="wordmark" href="#"><span class="voice">Voice</span><span class="quill">Quill</span></a>
+  <nav class="navlinks"><a href="#why">Why</a><a href="#use">Use cases</a><a href="#compare">Compare</a><a href="#start">Start</a></nav>
+  <a class="navcta" href="#start">Download</a>
+</header>
+
+<main>
+  <section class="container hero">
+    <div>
+      <div class="eyebrow">Local-first voiceover studio</div>
+      <h1>Turn ideas into voiceovers in seconds.</h1>
+      <div class="tagline">FAST. PRIVATE. UNIQUELY YOURS.</div>
+      <p class="lead">Create professional narration without recording yourself, uploading scripts, or paying monthly subscriptions.</p>
+      <div class="cta-row"><a class="btn btn-primary" href="#start">Download VoiceQuill</a><a class="btn btn-secondary" href="#why">See how it works</a></div>
+      <p class="note">No account. No cloud upload. No subscription.</p>
+    </div>
+    <div class="device">
+      <div class="device-card">
+        <div class="appbar"><div class="qchip">Q</div><span>On-device generation</span></div>
+        <div class="editor">
+          <div class="editor-label">Script</div>
+          <div class="script">“Here is how I built a faceless channel without recording my own voice.”</div>
+          <div class="wave" aria-hidden="true">
+            <div class="bar" style="height:38px"></div><div class="bar" style="height:76px"></div><div class="bar" style="height:52px"></div><div class="bar" style="height:96px"></div><div class="bar" style="height:64px"></div><div class="bar" style="height:104px"></div><div class="bar" style="height:46px"></div><div class="bar" style="height:82px"></div><div class="bar" style="height:58px"></div><div class="bar" style="height:91px"></div><div class="bar" style="height:42px"></div><div class="bar" style="height:72px"></div><div class="bar" style="height:50px"></div><div class="bar" style="height:100px"></div>
+          </div>
+          <div class="controls"><div class="pill">Voice 04</div><div class="pill">Warm</div><div class="pill">Export</div></div>
+          <div class="status"><span><i class="dot"></i>Generated locally</span><span>Private</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="container proof-grid">
+      <div class="proof-item"><strong>Local</strong>Voice generation stays on your device.</div>
+      <div class="proof-item"><strong>Fast</strong>No upload, queue, or cloud rendering wait.</div>
+      <div class="proof-item"><strong>Flexible</strong>7 voices with customization controls.</div>
+      <div class="proof-item"><strong>Simple</strong>One-time purchase. No credits.</div>
+    </div>
+  </section>
+
+  <section id="why" class="container section">
+    <div class="section-head">
+      <div><div class="section-kicker">Why VoiceQuill</div><h2>The voice for creators who don’t want to be the voice.</h2></div>
+      <p class="section-copy">Most people do not need a complex voice studio. They need a clean way to turn a script into usable narration and publish.</p>
+    </div>
+    <div class="cards">
+      <article class="card"><div class="card-number">01</div><h3>Fast by architecture.</h3><p>VoiceQuill runs locally. No upload cycle. No rendering queue. Generate, adjust, export.</p></article>
+      <article class="card"><div class="card-number">02</div><h3>Private by default.</h3><p>No login. No account. No cloud upload. Your scripts stay where they belong: on your device.</p></article>
+      <article class="card"><div class="card-number">03</div><h3>Yours by design.</h3><p>Choose from 7 voices and customize the sound so your content has a consistent voice identity.</p></article>
+    </div>
+  </section>
+
+  <section id="use" class="section light">
+    <div class="container">
+      <div class="section-head">
+        <div><div class="section-kicker">Use cases</div><h2>Built for the first 100 pieces of content.</h2></div>
+        <p class="section-copy">Not overbuilt. Not underpowered. Enough quality for creators who want to start, test, learn, and publish.</p>
+      </div>
+      <div class="use-grid">
+        <div class="use"><div class="icon">01</div><div><h3>Faceless channels</h3><p>Narrate TikToks, Reels, Shorts, tutorials, explainers, and screen recordings without using your own voice.</p></div></div>
+        <div class="use"><div class="icon">02</div><div><h3>Stories</h3><p>Turn short stories, scenes, character tests, and creative scripts into voice without a recording setup.</p></div></div>
+        <div class="use"><div class="icon">03</div><div><h3>Presentations</h3><p>Create voiceovers for company videos, training materials, internal explainers, and product demos.</p></div></div>
+        <div class="use"><div class="icon">04</div><div><h3>Podcast concepts</h3><p>Prototype intros, guest-style segments, episode drafts, and narrative formats before investing more time.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="compare" class="container section">
+    <div class="section-head">
+      <div><div class="section-kicker">Difference</div><h2>A voiceover studio without the baggage.</h2></div>
+      <p class="section-copy">VoiceQuill is not trying to be the most complex voice platform. It is built to remove the first barrier.</p>
+    </div>
+    <div class="compare-wrap">
+      <div class="compare-row compare-head"><div class="compare-cell">Feature</div><div class="compare-cell">VoiceQuill</div><div class="compare-cell">Typical platform</div></div>
+      <div class="compare-row"><div class="compare-cell">Local processing</div><div class="compare-cell yes">Yes</div><div class="compare-cell no">Usually no</div></div>
+      <div class="compare-row"><div class="compare-cell">Account required</div><div class="compare-cell yes">No</div><div class="compare-cell no">Usually yes</div></div>
+      <div class="compare-row"><div class="compare-cell">Cloud upload</div><div class="compare-cell yes">No</div><div class="compare-cell no">Usually yes</div></div>
+      <div class="compare-row"><div class="compare-cell">Subscription</div><div class="compare-cell yes">No</div><div class="compare-cell no">Common</div></div>
+      <div class="compare-row"><div class="compare-cell">Voice customization</div><div class="compare-cell yes">Included</div><div class="compare-cell no">Often gated</div></div>
+    </div>
+  </section>
+
+  <section id="start" class="final">
+    <div class="container">
+      <h2>Create content without creator anxiety.</h2>
+      <p>Type a script. Pick a voice. Generate locally. Publish when ready.</p>
+      <a class="btn btn-primary" href="#">Download VoiceQuill</a>
+      <div class="tagline">FAST. PRIVATE. UNIQUELY YOURS.</div>
+    </div>
+  </section>
+</main>
+<footer class="container footer"><span><strong>Voice</strong><span style="color:var(--coral);font-weight:900">Quill</span></span><span>Local-first voiceover for faceless creators.</span></footer>
+</div>
+</body>
+</html>
