@@ -1,6 +1,0 @@
-{
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/updates/:file", "destination": "/public/updates/:file" }
-  ]
-}
