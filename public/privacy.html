@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  ============================================================
+  VoiceQuill — Privacy Policy  (deploy as /privacy)
+  Before publishing, fill the bracketed placeholders:
+    • [LEGAL NAME]      — the controller's legal name or registered business name
+                          (Apple Developer registration is "Ferit Yilmaz" — confirm)
+    • [KVK / VAT]       — Dutch Chamber of Commerce (KVK) / VAT number, if registered (optional)
+    • [EFFECTIVE DATE]  — the date you publish this (currently set to 8 July 2026)
+  This is a solid GDPR-shaped starting point, not legal advice. Given the stakes for
+  EU data collection, have it reviewed by someone qualified before you rely on it.
+  ============================================================
+-->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy — VoiceQuill</title>
+<meta name="description" content="How the VoiceQuill website handles data. The app itself runs entirely on your Mac.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coral:#FE5530; --near-black:#100E0B; --off-white:#F2EFE7;
+    --graphite:#3D3833; --muted:#6E6B63; --line:#DED9CE; --card:#FBFAF5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--off-white);color:var(--near-black);
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  /* header band */
+  .topbar{background:var(--near-black);padding:20px 24px;}
+  .topbar-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .wordmark{font-weight:900;font-size:24px;letter-spacing:-0.04em;line-height:1;}
+  .wordmark .v{color:var(--off-white);} .wordmark .q{color:var(--coral);}
+  .backlink{color:var(--muted);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;}
+  .backlink:hover{color:var(--off-white);}
+
+  main{max-width:760px;margin:0 auto;padding:56px 24px 96px;}
+  .eyebrow{color:var(--coral);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;}
+  h1{font-size:40px;font-weight:900;letter-spacing:-0.03em;line-height:1.05;margin:12px 0 8px;}
+  .meta{color:var(--muted);font-size:13px;margin-bottom:36px;}
+
+  /* the signature callout: app vs website */
+  .callout{
+    background:var(--card);border:1px solid var(--line);border-left:3px solid var(--coral);
+    border-radius:12px;padding:22px 24px;margin:0 0 44px;
+  }
+  .callout h2{font-size:15px;font-weight:700;letter-spacing:0;margin-bottom:8px;text-transform:none;color:var(--near-black);border:none;padding:0;}
+  .callout p{color:var(--graphite);font-size:14px;}
+  .callout strong{color:var(--near-black);}
+
+  section{margin:0 0 40px;scroll-margin-top:80px;}
+  h2{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--near-black);
+     margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);}
+  h2 .num{color:var(--coral);margin-right:10px;}
+  h3{font-size:15px;font-weight:700;margin:20px 0 6px;}
+  p{color:var(--graphite);font-size:15px;margin-bottom:12px;}
+  p.lead{color:var(--near-black);}
+  a{color:var(--coral);text-decoration:none;border-bottom:1px solid rgba(254,85,48,.35);}
+  a:hover{border-bottom-color:var(--coral);}
+  code{font-family:'Geist Mono','SF Mono',monospace;font-size:.9em;background:rgba(16,14,11,.06);padding:1px 5px;border-radius:4px;}
+  ul{margin:8px 0 16px 0;padding-left:0;list-style:none;}
+  li{color:var(--graphite);font-size:15px;margin-bottom:10px;padding-left:20px;position:relative;}
+  li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;background:var(--coral);border-radius:50%;}
+  li strong{color:var(--near-black);}
+
+  /* data table */
+  .tbl{width:100%;border-collapse:collapse;margin:12px 0 8px;font-size:13.5px;}
+  .tbl th{text-align:left;font-weight:700;color:var(--near-black);padding:10px 12px;border-bottom:2px solid var(--near-black);font-size:12px;letter-spacing:.04em;}
+  .tbl td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--graphite);vertical-align:top;}
+  .tbl tr:last-child td{border-bottom:none;}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:.03em;}
+  .pill--essential{background:#E3EEE8;color:#1B5E43;}
+  .pill--marketing{background:#FFE0D6;color:#BF3D1F;}
+
+  .placeholder{color:var(--coral);font-weight:600;background:rgba(254,85,48,.08);padding:0 4px;border-radius:3px;}
+  .disclaimer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;margin-top:8px;}
+
+  footer{background:var(--near-black);color:var(--muted);padding:28px 24px;text-align:center;font-size:12px;}
+  footer a{color:var(--off-white);border:none;}
+
+  @media(max-width:560px){
+    h1{font-size:30px;}
+    main{padding:40px 20px 72px;}
+    .tbl{font-size:12.5px;}
+    .tbl th,.tbl td{padding:8px 8px;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="wordmark"><span class="v">Voice</span><span class="q">Quill</span></div>
+      <a class="backlink" href="/">← Back to site</a>
+    </div>
+  </div>
+
+  <main>
+    <div class="eyebrow">Privacy</div>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Last updated: 8 July 2026 · Applies to the website voicequill.studio</p>
+
+    <div class="callout">
+      <h2>The app collects nothing. This page is about the website.</h2>
+      <p>The VoiceQuill macOS app runs <strong>entirely on your Mac</strong>. There's no account, no sign-in,
+      and nothing you type or generate is ever uploaded — the app has no servers to send it to. This policy
+      covers only what happens on our <strong>website</strong>, voicequill.studio, where a small amount of data
+      is collected if you sign up for updates, download the app, email us, or consent to advertising cookies.
+      Each of those is explained below.</p>
+    </div>
+
+    <section id="controller">
+      <h2><span class="num">01</span>Who's responsible</h2>
+      <p>The data controller for this website is <strong>Nexxen-Consult</strong>, trading as
+      VoiceQuill, based in Amsterdam, the Netherlands.</p>
+      <p>For anything in this policy — including any request about your data — contact
+      <a href="mailto:hello@voicequill.studio">hello@voicequill.studio</a>.</p>
+    </section>
+
+    <section id="what">
+      <h2><span class="num">02</span>What we collect, and why</h2>
+
+      <h3>Email updates ("keep me informed")</h3>
+      <p>If you sign up to be kept informed, we collect the email address you enter. The form is processed by
+      Formspree, which passes it to us. We use it only to tell you about significant VoiceQuill updates and the
+      launch — we email sparingly, not on a schedule.
+      <strong>Legal basis:</strong> your consent, which you can withdraw at any time by unsubscribing or emailing us.</p>
+
+      <h3>Downloading the app &amp; your registration key</h3>
+      <p>To download VoiceQuill you enter your email address so we can send you a <strong>registration key</strong>
+      that unlocks the app. We collect that email (again via Formspree) and use it to deliver your key and the
+      download link. If you tick the optional box, we'll also send you occasional product updates. The key is tied
+      to you — that's precisely what lets the app stay fully offline, with no accounts and no sign-in.
+      <strong>Legal basis:</strong> taking steps at your request to provide the app; and, for the optional updates,
+      your consent.</p>
+
+      <h3>Emails you send us</h3>
+      <p>If you write to hello@ or feedback@voicequill.studio, we receive your email address and whatever you
+      include in the message. Our email runs through Cloudflare Email Routing and is delivered to a Google
+      (Gmail) inbox. We use this only to read and reply.
+      <strong>Legal basis:</strong> our legitimate interest in responding to you.</p>
+
+      <h3>Advertising &amp; measurement cookies</h3>
+      <p>With your consent, we load the <strong>Meta Pixel</strong> and the <strong>TikTok Pixel</strong>.
+      These let us measure how our Instagram and TikTok campaigns perform and reach
+      people who've visited the site. They collect your IP address, device and browser information, the pages and
+      actions you take on the site, and cookie identifiers.
+      <strong>Nothing loads until you click "Accept"</strong> on the cookie banner — if you decline, no pixel runs.
+      <strong>Legal basis:</strong> your consent.</p>
+
+      <h3>Hosting &amp; security logs</h3>
+      <p>The site is hosted on Vercel and served through Cloudflare. Like all web hosts, they automatically process
+      technical data such as your IP address and request details to deliver the site and keep it secure.
+      <strong>Legal basis:</strong> our legitimate interest in running a secure, working website.</p>
+
+      <h3>Your cookie choice</h3>
+      <p>When you accept or decline, we store that single preference in your browser (local storage, under the key
+      <code>vq_consent</code>) so we don't ask again on every visit. This is essential to honour your choice and
+      isn't used for tracking.</p>
+    </section>
+
+    <section id="cookies">
+      <h2><span class="num">03</span>Cookies &amp; similar technologies</h2>
+      <p>No non-essential cookies are set before you consent. Here's the full list:</p>
+      <table class="tbl">
+        <thead><tr><th>Name / source</th><th>Type</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>vq_consent</code> — our site (local storage)</td>
+            <td><span class="pill pill--essential">Essential</span></td>
+            <td>Remembers whether you accepted or declined cookies. Set for everyone; not tracking.</td>
+          </tr>
+          <tr>
+            <td>Meta Pixel cookies (e.g. <code>_fbp</code>) — Meta</td>
+            <td><span class="pill pill--marketing">Marketing</span></td>
+            <td>Ad measurement and retargeting on Facebook/Instagram. Loads only after you accept.</td>
+          </tr>
+          <tr>
+            <td>TikTok Pixel cookies (e.g. <code>_ttp</code>) — TikTok</td>
+            <td><span class="pill pill--marketing">Marketing</span></td>
+            <td>Ad measurement and retargeting on TikTok. Loads only after you accept.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>You can change your mind at any time using the
+      <a href="#" onclick="if(window.vqOpenConsent){window.vqOpenConsent();}return false;">Cookie settings</a>
+      link (also in the site footer), or by clearing this site's data in your browser.</p>
+    </section>
+
+    <section id="sharing">
+      <h2><span class="num">04</span>Who we share data with</h2>
+      <p>We don't sell your data. We use a small set of service providers ("processors") to run the site. Each
+      only receives what it needs for its job:</p>
+      <ul>
+        <li><strong>Formspree</strong> — processes the email sign-up and download-key forms.</li>
+        <li><strong>Meta Platforms</strong> — the Meta Pixel (only after consent).</li>
+        <li><strong>TikTok</strong> — the TikTok Pixel (only after consent). Data may be transferred to and accessed from outside the European Economic Area.</li>
+        <li><strong>Vercel</strong> — website hosting.</li>
+        <li><strong>Cloudflare</strong> — DNS, security, and email routing.</li>
+        <li><strong>Google</strong> — delivers our forwarded email (Gmail).</li>
+      </ul>
+      <p>We may also disclose data if the law requires it.</p>
+    </section>
+
+    <section id="transfers">
+      <h2><span class="num">05</span>International transfers</h2>
+      <p>Several of the providers above are based outside the EU, mainly in the United States. Where your data is
+      transferred outside the European Economic Area, we rely on the safeguards those providers put in place —
+      typically the European Commission's Standard Contractual Clauses, or an adequacy decision where one applies.
+      If you'd like more detail on a specific transfer, email us.</p>
+    </section>
+
+    <section id="retention">
+      <h2><span class="num">06</span>How long we keep it</h2>
+      <ul>
+        <li><strong>Sign-up &amp; download-key email:</strong> until launch and a reasonable follow-up period, or until you unsubscribe or ask us to delete it — whichever comes first.</li>
+        <li><strong>Emails you send:</strong> as long as needed to handle your message and for our records, then deleted.</li>
+        <li><strong>Pixel data:</strong> retained by Meta and TikTok under their own retention policies; see their privacy documentation.</li>
+        <li><strong>Hosting/security logs:</strong> kept short-term by Vercel and Cloudflare for operations and security.</li>
+      </ul>
+    </section>
+
+    <section id="rights">
+      <h2><span class="num">07</span>Your rights</h2>
+      <p>Under the GDPR, you can ask us to:</p>
+      <ul>
+        <li><strong>Access</strong> the data we hold about you.</li>
+        <li><strong>Correct</strong> anything inaccurate.</li>
+        <li><strong>Delete</strong> your data ("right to be forgotten").</li>
+        <li><strong>Restrict</strong> or <strong>object</strong> to how we use it.</li>
+        <li><strong>Port</strong> your data to another service.</li>
+        <li><strong>Withdraw consent</strong> at any time — for cookies via "Cookie settings," for email via unsubscribe.</li>
+      </ul>
+      <p>To exercise any of these, email <a href="mailto:hello@voicequill.studio">hello@voicequill.studio</a>.
+      You also have the right to complain to the Dutch data protection authority, the
+      <a href="https://autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener">Autoriteit Persoonsgegevens</a>.</p>
+    </section>
+
+    <section id="children">
+      <h2><span class="num">08</span>Children</h2>
+      <p>This website and VoiceQuill aren't directed at children. In the Netherlands, we don't knowingly collect
+      data from anyone under 16. If you believe a minor has given us data, email us and we'll delete it.</p>
+    </section>
+
+    <section id="changes">
+      <h2><span class="num">09</span>Changes to this policy</h2>
+      <p>If we change how the website handles data, we'll update this page and the "last updated" date above.
+      For significant changes, we'll flag it on the site.</p>
+    </section>
+
+    <p class="disclaimer">This policy is provided in good faith as a plain-language description of how the
+    VoiceQuill website handles data. It isn't legal advice. If your circumstances change — a registered company,
+    new tools, EU ad spend at scale — have it reviewed by a qualified professional.</p>
+  </main>
+
+  <footer>
+    <span style="color:#F2EFE7;font-weight:700;">VoiceQuill</span> ·
+    <a href="#" onclick="if(window.vqOpenConsent){window.vqOpenConsent();}return false;">Cookie settings</a> ·
+    <a href="mailto:hello@voicequill.studio">hello@voicequill.studio</a>
+  </footer>
+
+  <script>
+    // "Cookie settings" here clears the stored choice and returns to the home
+    // page, where the consent banner (and its live vqOpenConsent) will reappear.
+    window.vqOpenConsent = function(){
+      try { localStorage.removeItem('vq_consent'); } catch(e){}
+      location.href = '/';
+    };
+  </script>
+
+</body>
+</html>
