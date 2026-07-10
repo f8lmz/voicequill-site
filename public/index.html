@@ -101,7 +101,7 @@ a{text-decoration:none;color:inherit}
 .pricing{background:var(--off);color:var(--near)}
 .pricing .section-kicker{color:var(--coral)}
 .pricing .section-copy{color:var(--graphite)}
-.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:840px}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .tier{background:#E8E2D7;border:1px solid rgba(16,14,11,.08);border-radius:24px;padding:34px 30px;display:flex;flex-direction:column}
 .tier-featured{background:var(--near);color:var(--off);border:1px solid var(--near)}
 .tier-name{font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--graphite)}
@@ -309,40 +309,61 @@ a{text-decoration:none;color:inherit}
       </div>
 
       <div class="price-grid">
-        <!-- Free / Try it -->
+        <!-- Trial (free, limited) -->
         <div class="tier">
-          <div class="tier-name">Try it</div>
+          <div class="tier-name">Trial</div>
           <div class="price">Free</div>
-          <div class="price-sub">Full app, one month</div>
-          <p class="tier-desc">The complete Mac app, free to use for a month. See if it fits how you work.</p>
+          <div class="price-sub">One month</div>
+          <p class="tier-desc">Try VoiceQuill for a month. Enough to make real content and see if it fits.</p>
           <ul class="features">
-            <li>10 voices</li>
-            <li>Full on-device generation</li>
+            <li>3 voices</li>
+            <li>Up to 3,000 characters per script</li>
+            <li>On-device generation</li>
             <li>Pitch, warmth &amp; tone controls</li>
             <li>Inline pauses &amp; emphasis</li>
             <li>macOS 14+</li>
           </ul>
-          <a class="btn btn-dark" href="#download">Download for Mac</a>
+          <a class="btn btn-dark" href="#download">Download free trial</a>
           <p class="tier-fine">1-month key. No card required.</p>
         </div>
 
-        <!-- Pro -->
+        <!-- Plus (€39, the purchasable product) -->
         <div class="tier tier-featured">
-          <div class="tier-badge">Coming with v2.0</div>
-          <div class="tier-name">Pro</div>
-          <div class="price">&euro;59 <small>once</small></div>
+          <div class="tier-badge">The full app</div>
+          <div class="tier-name">Plus</div>
+          <div class="price">&euro;39 <small>once</small></div>
           <div class="price-sub">One payment &mdash; yours forever</div>
-          <p class="tier-desc">Everything in Try it, plus the full v2.0 toolkit &mdash; and the iOS companion.</p>
+          <p class="tier-desc">The full app, unlocked. No limits, every voice, yours to keep.</p>
           <ul class="features">
-            <li>20+ voices</li>
-            <li>Full-length exports</li>
-            <li>Dialogue mode &mdash; cast two voices in one script</li>
-            <li>One-click pause, emphasis &amp; pronunciation</li>
-            <li>iOS companion included</li>
+            <li>All 10 voices</li>
+            <li>No character limit</li>
+            <li>On-device generation</li>
+            <li>Pitch, warmth &amp; tone controls</li>
+            <li>Inline pauses &amp; emphasis</li>
+            <li>Free updates</li>
             <li>No subscription. Ever.</li>
           </ul>
+          <!-- LAUNCH: swap href to the LemonSqueezy checkout once the key backend is live:
+               https://voicequill.lemonsqueezy.com/checkout/buy/d4d36abf-ea85-4654-8293-fc428f699361 -->
           <a class="btn btn-light" href="#keep">Get notified at launch</a>
-          <p class="tier-fine">Beta is open now &mdash; free while it lasts.</p>
+          <p class="tier-fine">Launching soon.</p>
+        </div>
+
+        <!-- Pro (€59, future) -->
+        <div class="tier">
+          <div class="tier-badge">Coming soon</div>
+          <div class="tier-name">Pro</div>
+          <div class="price">&euro;59 <small>once</small></div>
+          <div class="price-sub">In development</div>
+          <p class="tier-desc">The next generation of VoiceQuill. In the works &mdash; here&rsquo;s what&rsquo;s planned.</p>
+          <ul class="features">
+            <li>Everything in Plus</li>
+            <li>Dialogue mode &mdash; cast two voices</li>
+            <li>A larger voice library</li>
+            <li>iOS companion</li>
+          </ul>
+          <a class="btn btn-dark" href="#keep">Get notified</a>
+          <p class="tier-fine">No date yet &mdash; we&rsquo;ll email when it lands.</p>
         </div>
       </div>
     </div>
