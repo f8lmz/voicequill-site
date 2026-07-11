@@ -1,0 +1,10 @@
+{
+  "name": "voicequill-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VoiceQuill marketing site + license/webhook edge functions",
+  "type": "module",
+  "dependencies": {
+    "@noble/ed25519": "2.1.0"
+  }
+}
