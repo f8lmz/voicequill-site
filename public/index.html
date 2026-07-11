@@ -343,10 +343,8 @@ a{text-decoration:none;color:inherit}
             <li>Free updates</li>
             <li>No subscription. Ever.</li>
           </ul>
-          <!-- LAUNCH: swap href to the LemonSqueezy checkout once the key backend is live:
-               https://voicequill.lemonsqueezy.com/checkout/buy/d4d36abf-ea85-4654-8293-fc428f699361 -->
-          <a class="btn btn-light" href="#keep">Get notified at launch</a>
-          <p class="tier-fine">Launching soon.</p>
+          <a class="btn btn-light" id="buyPlus" href="https://voicequill.lemonsqueezy.com/checkout/buy/d4d36abf-ea85-4654-8293-fc428f699361">Get Plus &mdash; &euro;39</a>
+          <p class="tier-fine">One-time payment. Your license key is emailed right after checkout.</p>
         </div>
 
         <!-- Pro (€59, future) -->
@@ -587,6 +585,11 @@ a{text-decoration:none;color:inherit}
     try { localStorage.removeItem(CONSENT_KEY); } catch (e) {}
     cookieBar.classList.add('show');
   };
+
+  // Fire an InitiateCheckout signal when someone heads to the Plus checkout
+  // (only sends if the visitor consented to pixels).
+  const buyPlus = document.getElementById('buyPlus');
+  if (buyPlus) buyPlus.addEventListener('click', () => trackEvent('InitiateCheckout'));
 </script>
 
 </body>
