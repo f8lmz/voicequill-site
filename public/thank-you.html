@@ -26,6 +26,9 @@
   .steps li:last-child{margin-bottom:0}
   .fine{font-size:13px;color:var(--muted);margin-bottom:26px}
   .btn{display:inline-block;background:var(--coral);color:var(--near);font-weight:700;font-size:15px;border-radius:999px;padding:13px 26px}
+  .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn-ghost{background:transparent;color:var(--off);border:1px solid rgba(242,239,231,.25)}
+  .btn-ghost:hover{border-color:rgba(242,239,231,.5)}
 </style>
 </head>
 <body>
@@ -41,13 +44,16 @@
       <h2>To activate</h2>
       <ol>
         <li>Open the email from VoiceQuill and copy your key.</li>
-        <li>Open VoiceQuill (already on the trial? same app &mdash; no re-download).</li>
+        <li>Open VoiceQuill &mdash; grab it below if you don&rsquo;t have it yet (already on the trial? same app).</li>
         <li>Paste the key when prompted. Done.</li>
       </ol>
     </div>
 
     <p class="fine">Key not there in a few minutes? Check spam, or email <a href="mailto:hello@voicequill.studio">hello@voicequill.studio</a> and we&rsquo;ll sort it.</p>
-    <a class="btn" href="/">Back to VoiceQuill</a>
+    <div class="actions">
+      <a class="btn" href="https://github.com/f8lmz/voicequill-releases/releases/latest" target="_blank" rel="noopener">Download VoiceQuill</a>
+      <a class="btn btn-ghost" href="/">Back to VoiceQuill</a>
+    </div>
   </div>
 
   <script>
