@@ -3,6 +3,14 @@
     <channel>
         <title>VoiceQuillV2</title>
         <item>
+            <title>2.3</title>
+            <pubDate>Sun, 12 Jul 2026 17:45:38 +0300</pubDate>
+            <sparkle:version>6</sparkle:version>
+            <sparkle:shortVersionString>2.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/f8lmz/voicequill-releases/releases/download/v2.3/VoiceQuill-2.3.zip" sparkle:edSignature="yqe1YMxPkZOQzQoHqRPdi5gNPl2PQpkDqfyGB36XjwKf3OO5dCHi7cNp+7JR8RrTovFVr9LDcL+WnTAtKE44Dw==" length="85139990" type="application/octet-stream"/>
+        </item>
+        <item>
             <title>2.2</title>
             <pubDate>Sun, 12 Jul 2026 15:44:35 +0300</pubDate>
             <sparkle:version>5</sparkle:version>
