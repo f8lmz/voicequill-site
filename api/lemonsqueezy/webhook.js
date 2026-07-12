@@ -1,16 +1,27 @@
-// LemonSqueezy webhook → mint a VoiceQuill license key → email it via Resend.
+// LemonSqueezy webhook → deliver a VoiceQuill license key by branded email (Resend).
 //
-// LemonSqueezy is the merchant of record (it handles EU VAT). It's payment +
-// trigger only — the app's offline Ed25519 licensing is unchanged. Runs on
-// Vercel's Edge runtime for the raw request body (needed for HMAC verification).
+// Two modes, chosen by the LICENSE_MODE env var, so we can cut over safely:
 //
-// Required env vars (Vercel → Project → Settings → Environment Variables):
-//   VQ_PRIVATE_KEY                base64 32-byte Ed25519 seed (the ROTATED key)
-//   LEMONSQUEEZY_WEBHOOK_SECRET   signing secret set on the LS webhook
-//   RESEND_API_KEY                Resend transactional email API key
-//   LEMONSQUEEZY_PLUS_VARIANT_ID  variant id of VoiceQuill Plus → tier "plus" (perpetual)
-// Optional (add when Pro ships):
-//   LEMONSQUEEZY_PRO_VARIANT_ID   variant id of VoiceQuill Pro  → tier "pro"  (perpetual)
+//   LICENSE_MODE = "ed25519"  (default, current)
+//     Handles `order_created`: mints our own offline Ed25519 key and emails it.
+//     Unlimited devices, no revocation — fine as a stopgap.
+//
+//   LICENSE_MODE = "lemonsqueezy"  (after cutover)
+//     Handles `license_key_created`: LemonSqueezy generates the key (device-locked via
+//     an activation limit, revocable); we just relay it in the same branded email.
+//     Requires "license keys" enabled on the LS product.
+//
+// Cut over only once the app supports LS-key activation. Flip LICENSE_MODE the same
+// moment you enable license keys on the product, so buyers never get both kinds of key.
+//
+// Env:
+//   VQ_PRIVATE_KEY                 (ed25519 mode) base64 Ed25519 seed
+//   LEMONSQUEEZY_WEBHOOK_SECRET    signing secret (both modes)
+//   RESEND_API_KEY                 Resend key (both modes)
+//   LEMONSQUEEZY_PLUS_VARIANT_ID   (ed25519 mode) variant → "plus"
+//   LEMONSQUEEZY_PLUS_PRODUCT_ID   (lemonsqueezy mode) product → "plus"  (e.g. 1210583)
+//   LEMONSQUEEZY_PRO_VARIANT_ID / LEMONSQUEEZY_PRO_PRODUCT_ID  (later, Pro)
+//   LICENSE_MODE                   "ed25519" | "lemonsqueezy"  (default "ed25519")
 
 import { mintKey } from '../_lib/license.js';
 
@@ -27,8 +38,6 @@ function timingSafeEqual(a, b) {
   for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
   return diff === 0;
 }
-
-// LemonSqueezy signs the raw body: X-Signature = hex HMAC-SHA256(secret, rawBody).
 async function verifyLemon(rawBody, signatureHeader, secret) {
   if (!signatureHeader || !secret) return false;
   const key = await crypto.subtle.importKey(
@@ -43,6 +52,12 @@ function tierForVariant(variantId) {
   const v = String(variantId ?? '');
   if (v && v === String(process.env.LEMONSQUEEZY_PLUS_VARIANT_ID)) return 'plus';
   if (v && v === String(process.env.LEMONSQUEEZY_PRO_VARIANT_ID)) return 'pro';
+  return null;
+}
+function tierForProduct(productId) {
+  const p = String(productId ?? '');
+  if (p && p === String(process.env.LEMONSQUEEZY_PLUS_PRODUCT_ID)) return 'plus';
+  if (p && p === String(process.env.LEMONSQUEEZY_PRO_PRODUCT_ID)) return 'pro';
   return null;
 }
 
@@ -64,7 +79,6 @@ function keyEmailHtml(name, licenseKey, tier) {
     <p style="color:#6E6B63;font-size:13px;line-height:1.5;margin:0;">Keep this email &mdash; it&rsquo;s your proof of purchase. Questions? Just reply, or write to <a href="mailto:hello@voicequill.studio" style="color:#8C887F;">hello@voicequill.studio</a>.</p>
   </div></body></html>`;
 }
-
 async function sendKeyEmail(to, name, licenseKey, tier) {
   const label = TIER_LABEL[tier] || 'Plus';
   const r = await fetch('https://api.resend.com/emails', {
@@ -83,43 +97,48 @@ async function sendKeyEmail(to, name, licenseKey, tier) {
   if (!r.ok) throw new Error(`Resend failed: ${r.status} ${await r.text()}`);
 }
 
+function nameFrom(attr) {
+  return (attr.user_name || '').trim() || (attr.user_email ? attr.user_email.split('@')[0] : 'there');
+}
+
 export default async function handler(req) {
   if (req.method !== 'POST') return new Response('Method Not Allowed', { status: 405 });
 
   const raw = await req.text();
-  const ok = await verifyLemon(
-    raw,
-    req.headers.get('x-signature'),
-    process.env.LEMONSQUEEZY_WEBHOOK_SECRET
-  );
+  const ok = await verifyLemon(raw, req.headers.get('x-signature'), process.env.LEMONSQUEEZY_WEBHOOK_SECRET);
   if (!ok) return new Response('Invalid signature', { status: 401 });
 
   let event;
   try { event = JSON.parse(raw); } catch { return new Response('Bad JSON', { status: 400 }); }
 
-  if (event?.meta?.event_name !== 'order_created') {
-    return new Response('ignored', { status: 200 });
-  }
+  const eventName = event?.meta?.event_name;
   const attr = event?.data?.attributes || {};
-  if (attr.status && attr.status !== 'paid') {
-    return new Response('ignored (unpaid)', { status: 200 });
-  }
-
-  const tier = tierForVariant(attr?.first_order_item?.variant_id);
-  if (tier !== 'plus' && tier !== 'pro') {
-    return new Response('ignored (unmapped product)', { status: 200 });
-  }
-
-  const email = attr.user_email;
-  const name = (attr.user_name || '').trim() || (email ? email.split('@')[0] : 'there');
-  if (!email) return new Response('no email on order', { status: 200 });
+  const mode = process.env.LICENSE_MODE || 'ed25519';
 
   try {
-    const licenseKey = await mintKey(process.env.VQ_PRIVATE_KEY, name, null, tier); // perpetual
-    await sendKeyEmail(email, name, licenseKey, tier);
+    if (mode === 'lemonsqueezy') {
+      // LS generated the key; relay it. Device-locked + revocable on the LS side.
+      if (eventName !== 'license_key_created') return new Response('ignored', { status: 200 });
+      const tier = tierForProduct(attr.product_id);
+      if (!tier) return new Response('ignored (unmapped product)', { status: 200 });
+      const key = attr.key;
+      const email = attr.user_email;
+      if (!key || !email) return new Response('missing key/email', { status: 200 });
+      await sendKeyEmail(email, nameFrom(attr), key, tier);
+      return new Response('ok', { status: 200 });
+    }
+
+    // default "ed25519": mint our own key on a paid order (current behaviour)
+    if (eventName !== 'order_created') return new Response('ignored', { status: 200 });
+    if (attr.status && attr.status !== 'paid') return new Response('ignored (unpaid)', { status: 200 });
+    const tier = tierForVariant(attr?.first_order_item?.variant_id);
+    if (tier !== 'plus' && tier !== 'pro') return new Response('ignored (unmapped product)', { status: 200 });
+    const email = attr.user_email;
+    if (!email) return new Response('no email on order', { status: 200 });
+    const licenseKey = await mintKey(process.env.VQ_PRIVATE_KEY, nameFrom(attr), null, tier);
+    await sendKeyEmail(email, nameFrom(attr), licenseKey, tier);
+    return new Response('ok', { status: 200 });
   } catch (err) {
-    // 500 → LemonSqueezy retries the webhook.
-    return new Response(`error: ${err.message}`, { status: 500 });
+    return new Response(`error: ${err.message}`, { status: 500 }); // 500 → LS retries
   }
-  return new Response('ok', { status: 200 });
 }
