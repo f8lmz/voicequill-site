@@ -27,7 +27,7 @@ import { mintKey } from '../_lib/license.js';
 
 export const config = { runtime: 'edge' };
 
-const DOWNLOAD_URL = 'https://github.com/f8lmz/voicequill-releases/releases/latest';
+const DOWNLOAD_URL = 'https://www.voicequill.studio/api/download';
 
 function toHex(buf) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');

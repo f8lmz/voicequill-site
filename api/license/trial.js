@@ -11,7 +11,7 @@ import { mintKey, expiryInDays } from '../_lib/license.js';
 
 export const config = { runtime: 'edge' };
 
-const DOWNLOAD_URL = 'https://github.com/f8lmz/voicequill-releases/releases/latest';
+const DOWNLOAD_URL = 'https://www.voicequill.studio/api/download';
 // Site is www-canonical (apex 308-redirects to www), so the browser sends the www origin.
 const ALLOWED_ORIGINS = new Set([
   'https://www.voicequill.studio',
