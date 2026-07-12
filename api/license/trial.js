@@ -12,7 +12,11 @@ import { mintKey, expiryInDays } from '../_lib/license.js';
 export const config = { runtime: 'edge' };
 
 const DOWNLOAD_URL = 'https://github.com/f8lmz/voicequill-releases/releases/latest';
-const ALLOWED_ORIGIN = 'https://voicequill.studio';
+// Site is www-canonical (apex 308-redirects to www), so the browser sends the www origin.
+const ALLOWED_ORIGINS = new Set([
+  'https://www.voicequill.studio',
+  'https://voicequill.studio',
+]);
 
 function json(obj, status) {
   return new Response(JSON.stringify(obj), {
@@ -79,7 +83,7 @@ export default async function handler(req) {
 
   // Only accept requests from our own site (soft anti-abuse; absent origin allowed for testing).
   const origin = req.headers.get('origin');
-  if (origin && origin !== ALLOWED_ORIGIN) return json({ error: 'forbidden' }, 403);
+  if (origin && !ALLOWED_ORIGINS.has(origin)) return json({ error: 'forbidden' }, 403);
 
   let body;
   try { body = await req.json(); } catch { return json({ error: 'bad json' }, 400); }
