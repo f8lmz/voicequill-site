@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How to use VoiceQuill</title>
+<meta name="description" content="From a blank script to a finished voiceover — plus the inline marks that make it sound intentional." />
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --coral:#FE5530;--coral-hover:#FF6A48;--near:#100E0B;--near-2:#1A1816;
+    --off:#F2EFE7;--graphite:#3D3833;--secondary:#8C887F;--muted:#6E6B63;
+    --line:#2B2722;--soft:#E4DED2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Geist',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:var(--near);color:var(--off);line-height:1.55;
+    background:radial-gradient(circle at 80% -5%, rgba(254,85,48,.13), transparent 40%), var(--near);}
+  a{text-decoration:none;color:inherit}
+  code,.mono{font-family:ui-monospace,'Geist Mono',SFMono-Regular,Menlo,monospace}
+  .container{width:min(920px,calc(100% - 40px));margin:0 auto}
+
+  /* Nav */
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+  .wordmark{font-weight:900;font-size:24px;letter-spacing:-.045em}
+  .wordmark .v{color:var(--off)}.wordmark .q{color:var(--coral)}
+  .nav-right{display:flex;gap:20px;align-items:center;font-size:14px}
+  .nav-right a{color:var(--secondary)}.nav-right a:hover{color:var(--off)}
+  .nav-cta{background:var(--coral);color:var(--near);font-weight:700;border-radius:999px;padding:9px 16px}
+  .nav-cta:hover{background:var(--coral-hover)}
+
+  /* Hero */
+  .hero{padding:56px 0 40px;max-width:720px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin-bottom:16px}
+  h1{font-size:clamp(40px,6vw,64px);font-weight:900;letter-spacing:-.04em;line-height:.98;margin-bottom:18px}
+  .hero p{font-size:19px;color:#D5CEC3;max-width:600px}
+
+  /* Sections */
+  section{padding:52px 0;border-top:1px solid rgba(242,239,231,.08)}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin-bottom:12px}
+  h2{font-size:clamp(28px,4vw,40px);font-weight:900;letter-spacing:-.03em;line-height:1.02;margin-bottom:14px}
+  .sec-intro{font-size:17px;color:var(--secondary);max-width:640px;margin-bottom:36px}
+  h3{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+
+  /* Steps */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .step{background:var(--near-2);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .step-n{color:var(--coral);font-weight:700;font-size:13px;margin-bottom:12px}
+  .step h3{font-size:17px;margin-bottom:6px}
+  .step p{font-size:14px;color:var(--secondary)}
+
+  /* Use-case cards */
+  .uses{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .use{background:var(--near-2);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column}
+  .use .tag{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);margin-bottom:12px}
+  .use p{color:var(--secondary);font-size:15px;margin-bottom:16px}
+  .use .voice{font-size:12px;color:var(--muted);margin-top:auto}
+  .use .voice b{color:var(--soft);font-weight:600}
+  .script{background:#0B0907;border:1px solid rgba(242,239,231,.08);border-radius:12px;padding:16px;font-size:14.5px;line-height:1.5;color:#E4DED2;margin-bottom:16px}
+  .script .mk{color:var(--coral);font-weight:600}
+
+  /* Cheat sheet */
+  .sheet{display:flex;flex-direction:column;gap:14px}
+  .cs{background:var(--near-2);border:1px solid var(--line);border-radius:16px;padding:22px 24px;display:grid;grid-template-columns:170px 1fr;gap:22px;align-items:start}
+  .cs-mark{font-size:15px;color:var(--coral);font-weight:600;word-break:break-word}
+  .cs-mark .dim{color:var(--muted);font-weight:400}
+  .cs-body h3{font-size:16px;margin-bottom:6px}
+  .cs-body p{font-size:15px;color:var(--secondary);margin-bottom:10px}
+  .cs-ex{font-size:14px;color:#E4DED2;background:#0B0907;border:1px solid rgba(242,239,231,.08);border-radius:10px;padding:12px 14px}
+  .cs-ex .lbl{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+  .cs-ex .mk{color:var(--coral);font-weight:600}
+  .cs-ex .arrow{color:var(--muted)}
+
+  /* Compare (with / without) */
+  .compare{display:flex;flex-direction:column;gap:20px}
+  .cmp{background:var(--near-2);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .cmp-head{padding:16px 22px;border-bottom:1px solid var(--line);font-size:14px;color:var(--secondary)}
+  .cmp-grid{display:grid;grid-template-columns:1fr 1fr}
+  .cmp-cell{padding:22px}
+  .cmp-cell:first-child{border-right:1px solid var(--line)}
+  .cmp-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+  .cmp-lbl.plain{color:var(--muted)}
+  .cmp-lbl.marked{color:var(--coral)}
+  .cmp-text{font-size:15.5px;line-height:1.55;color:#E4DED2}
+  .cmp-text .mk{color:var(--coral);font-weight:600}
+  .cmp-why{padding:16px 22px;border-top:1px solid var(--line);font-size:14px;color:var(--secondary)}
+  .cmp-why b{color:var(--soft);font-weight:600}
+
+  /* Tips */
+  .tips{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .tip{background:var(--near-2);border:1px solid var(--line);border-radius:14px;padding:18px 20px;font-size:14.5px;color:var(--secondary)}
+  .tip b{color:var(--off);font-weight:600}
+  .tip code{color:var(--coral)}
+
+  /* Final CTA */
+  .final{text-align:center;padding:64px 0 40px}
+  .final h2{margin-bottom:14px}
+  .final p{color:#D5CEC3;font-size:17px;margin-bottom:26px}
+  .btn{display:inline-block;background:var(--coral);color:var(--near);font-weight:700;font-size:15px;border-radius:999px;padding:14px 28px}
+  .btn:hover{background:var(--coral-hover)}
+
+  footer{padding:32px 0;border-top:1px solid rgba(242,239,231,.08);color:var(--muted);font-size:13px;text-align:center}
+
+  @media(max-width:760px){
+    .steps,.uses,.tips,.cmp-grid{grid-template-columns:1fr}
+    .cmp-cell:first-child{border-right:0;border-bottom:1px solid var(--line)}
+    .cs{grid-template-columns:1fr;gap:12px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="nav">
+    <a class="wordmark" href="/"><span class="v">Voice</span><span class="q">Quill</span></a>
+    <div class="nav-right">
+      <a href="/#pricing">Pricing</a>
+      <a class="nav-cta" href="/#download">Start free trial</a>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="eyebrow">How to use</div>
+    <h1>Type a script. Make it sound intentional.</h1>
+    <p>VoiceQuill turns text into narration on your Mac. The basics take a minute. The little marks below are what make a read land — a beat here, a lift there, a name said right.</p>
+  </div>
+
+  <!-- BASICS -->
+  <section>
+    <div class="kicker">The basics</div>
+    <h2>Four steps to your first voiceover</h2>
+    <p class="sec-intro">No setup, no account. Everything runs on your Mac.</p>
+    <div class="steps">
+      <div class="step"><div class="step-n">01</div><h3>Type or paste</h3><p>Drop your script into the editor. Any length.</p></div>
+      <div class="step"><div class="step-n">02</div><h3>Pick a voice</h3><p>Choose from the voice list and preview it.</p></div>
+      <div class="step"><div class="step-n">03</div><h3>Shape it</h3><p>Tune pitch, warmth and tone — and add the inline marks below.</p></div>
+      <div class="step"><div class="step-n">04</div><h3>Generate &amp; export</h3><p>Hit generate, then export as WAV or M4A.</p></div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section>
+    <div class="kicker">What you can make</div>
+    <h2>Ideas to steal</h2>
+    <p class="sec-intro">Real examples with sample scripts — paste one in, pick the voice, and you&rsquo;ve got a clip. Coral marks are the inline controls explained further down.</p>
+    <div class="uses">
+
+      <div class="use">
+        <div class="tag">Faceless tutorials</div>
+        <h3>Narrate a screen recording</h3>
+        <p>Teach something without ever being on camera. Clear, steady, repeatable.</p>
+        <div class="script">Here&rsquo;s the fastest way to clean up a messy spreadsheet. <span class="mk">*Select</span> the column<span class="mk">*</span>, right-click, and hit <span class="mk">*Format*</span>. <span class="mk">[pause]</span> That&rsquo;s it.</div>
+        <div class="voice">Try it with <b>Michael</b> or <b>Adam</b> — clear and instructional.</div>
+      </div>
+
+      <div class="use">
+        <div class="tag">Short fiction · BookTok</div>
+        <h3>Give a story a narrator</h3>
+        <p>Atmospheric reads for a reel. Let the silence do the work.</p>
+        <div class="script">The house remembered everyone who had ever left it. <span class="mk">[pause:long]</span> Tonight<span class="mk">…</span> it was waiting for one more.</div>
+        <div class="voice">Try it with <b>George</b> (deep) or <b>Nova</b> (warm).</div>
+      </div>
+
+      <div class="use">
+        <div class="tag">Meditation · Sleep</div>
+        <h3>Calm, slow, spacious</h3>
+        <p>Long pauses turn a script into something you can breathe to.</p>
+        <div class="script">Let your shoulders drop. <span class="mk">[pause:long]</span> Breathe in<span class="mk">…</span> <span class="mk">[pause:long]</span> and slowly<span class="mk">…</span> let it go.</div>
+        <div class="voice">Try it with <b>Heart</b> or <b>Emma</b> — soft and unhurried.</div>
+      </div>
+
+      <div class="use">
+        <div class="tag">Product · Launch</div>
+        <h3>Voice a demo or promo</h3>
+        <p>Confident brand narration for a landing page or launch video.</p>
+        <div class="script">Meet the app that never sends your work to the cloud. <span class="mk">*Fast.*</span> <span class="mk">*Private.*</span> <span class="mk">*Yours.*</span></div>
+        <div class="voice">Try it with <b>Adam</b> or <b>Jessica</b> — assured and crisp.</div>
+      </div>
+
+      <div class="use">
+        <div class="tag">Language · Vocab</div>
+        <h3>Nail tricky pronunciations</h3>
+        <p>Names, places, loanwords — say them exactly how you mean.</p>
+        <div class="script">Today we&rsquo;re cooking <span class="mk">[gnocchi](nyawki)</span> from <span class="mk">[Nice](neese)</span>, in the south of France.</div>
+        <div class="voice">Try it with <b>Jessica</b> or <b>Liam</b> — clear diction.</div>
+      </div>
+
+      <div class="use">
+        <div class="tag">Reels · Hooks</div>
+        <h3>Punchy 3-second openers</h3>
+        <p>Grab attention in the first line, then cut to your content.</p>
+        <div class="script"><span class="mk">*Stop</span> scrolling<span class="mk">*</span>. <span class="mk">[pause]</span> You&rsquo;ve been editing audio the hard way this whole time.</div>
+        <div class="voice">Try it with <b>Puck</b> or <b>Bella</b> — energetic.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHEAT SHEET -->
+  <section>
+    <div class="kicker">The cheat sheet</div>
+    <h2>The inline controls</h2>
+    <p class="sec-intro">Type these marks right into your script. They&rsquo;re how you direct the read &mdash; where it breathes, what it leans on, how a word is said. Marks are removed from the audio; only their effect remains.</p>
+
+    <div class="sheet">
+
+      <div class="cs">
+        <div class="cs-mark">*your words*</div>
+        <div class="cs-body">
+          <h3>Emphasis</h3>
+          <p>Wrap text in single asterisks to lean on it &mdash; a small beat just before, plus a lift in stress. Use it on the word that carries the line. It&rsquo;s a nudge, not a shout (the voice doesn&rsquo;t get louder, it gets <em>deliberate</em>).</p>
+          <div class="cs-ex"><span class="lbl">Example</span>I <span class="mk">*never*</span> said that. <span class="arrow">→</span> a beat, then weight on &ldquo;never.&rdquo;</div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="cs-mark">~your words~</div>
+        <div class="cs-body">
+          <h3>Soften</h3>
+          <p>Wrap text in tildes to flatten it &mdash; stress is stripped, so it reads quicker and lighter. Good for throwaway asides or the quiet half of a contrast.</p>
+          <div class="cs-ex"><span class="lbl">Example</span>It was fine, <span class="mk">~i guess~</span>. <span class="arrow">→</span> the aside slips by, underplayed.</div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="cs-mark">[pause]</div>
+        <div class="cs-body">
+          <h3>Short pause &mdash; ~0.35s</h3>
+          <p>Drops real silence into the audio (not a guess &mdash; actual inserted quiet). Use it to let a point land or to separate two thoughts.</p>
+          <div class="cs-ex"><span class="lbl">Example</span>Wait for it. <span class="mk">[pause]</span> There it is.</div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="cs-mark">[pause:long]</div>
+        <div class="cs-body">
+          <h3>Long pause &mdash; ~0.75s</h3>
+          <p>A longer beat for suspense, sign-offs, or breathing room. (Anything after the colon works &mdash; <code>[pause:long]</code>, <code>[pause:beat]</code> &mdash; it&rsquo;s all the long pause.)</p>
+          <div class="cs-ex"><span class="lbl">Example</span>And the winner is<span class="mk">…</span> <span class="mk">[pause:long]</span> you.</div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="cs-mark">[pause][pause]<span class="dim"> …stack them</span></div>
+        <div class="cs-body">
+          <h3>Stack for bigger gaps</h3>
+          <p>Pauses add up. Put two or three in a row for a dramatic hold that&rsquo;s longer than a single long pause.</p>
+          <div class="cs-ex"><span class="lbl">Example</span>Three. <span class="mk">[pause][pause]</span> Two. <span class="mk">[pause][pause]</span> One.</div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="cs-mark">[note](say-it-like-this)</div>
+        <div class="cs-body">
+          <h3>Pronunciation override</h3>
+          <p>The part in <code>[ brackets ]</code> is just a note to yourself &mdash; it isn&rsquo;t spoken. The part in <code>( parentheses )</code> is what&rsquo;s actually said. Spell it the way it sounds. Perfect for names, brands, and foreign words the voice would otherwise mangle.</p>
+          <div class="cs-ex"><span class="lbl">Example</span>Our founder, <span class="mk">[Siobhan](shiv-awn)</span>, built this in Amsterdam. <span class="arrow">→</span> says &ldquo;shiv-awn.&rdquo;</div>
+        </div>
+      </div>
+
+      <div class="cs">
+        <div class="cs-mark">, &nbsp; . &nbsp; &mdash; &nbsp; …</div>
+        <div class="cs-body">
+          <h3>Punctuation is free rhythm</h3>
+          <p>You don&rsquo;t need a mark for every breath. Commas, periods, dashes (&mdash;) and ellipses (…) already shape the pacing. Three dots <code>...</code> become a single trailing-off beat. Reach for <code>[pause]</code> when you want <em>more</em> than punctuation gives.</p>
+          <div class="cs-ex"><span class="lbl">Example</span>I thought about it &mdash; a lot &mdash; and honestly<span class="mk">…</span> I&rsquo;m in.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WITH / WITHOUT -->
+  <section>
+    <div class="kicker">See the difference</div>
+    <h2>The same script, with and without</h2>
+    <p class="sec-intro">Plain text works fine. A few marks make it sound like someone <em>meant</em> it. Here&rsquo;s the same copy, both ways.</p>
+
+    <div class="compare">
+
+      <div class="cmp">
+        <div class="cmp-head">A dramatic line (fiction / trailer)</div>
+        <div class="cmp-grid">
+          <div class="cmp-cell">
+            <div class="cmp-lbl plain">Plain</div>
+            <div class="cmp-text">The house was empty. She knew what came next. There was no turning back.</div>
+          </div>
+          <div class="cmp-cell">
+            <div class="cmp-lbl marked">With marks</div>
+            <div class="cmp-text">The house was empty. <span class="mk">[pause]</span> She knew what came next. <span class="mk">*There was no turning back.*</span></div>
+          </div>
+        </div>
+        <div class="cmp-why"><b>Why it lands:</b> the pause lets &ldquo;empty&rdquo; hang; the emphasis puts a beat and weight on the final line so it reads like a verdict, not a sentence.</div>
+      </div>
+
+      <div class="cmp">
+        <div class="cmp-head">An instruction (tutorial / demo)</div>
+        <div class="cmp-grid">
+          <div class="cmp-cell">
+            <div class="cmp-lbl plain">Plain</div>
+            <div class="cmp-text">Click Export. Choose WAV for the highest quality. That&rsquo;s it.</div>
+          </div>
+          <div class="cmp-cell">
+            <div class="cmp-lbl marked">With marks</div>
+            <div class="cmp-text">Click <span class="mk">*Export*</span>. Choose <span class="mk">*WAV*</span> for the highest quality. That&rsquo;s it &mdash; <span class="mk">[pause]</span> done.</div>
+          </div>
+        </div>
+        <div class="cmp-why"><b>Why it lands:</b> emphasis flags the two things a viewer must not miss; the short pause before &ldquo;done&rdquo; gives the step a clean finish instead of trailing off.</div>
+      </div>
+
+      <div class="cmp">
+        <div class="cmp-head">A tricky name (branding / education)</div>
+        <div class="cmp-grid">
+          <div class="cmp-cell">
+            <div class="cmp-lbl plain">Plain</div>
+            <div class="cmp-text">Today&rsquo;s recipe comes from Siobhan, who runs a bakery in Reading.</div>
+          </div>
+          <div class="cmp-cell">
+            <div class="cmp-lbl marked">With marks</div>
+            <div class="cmp-text">Today&rsquo;s recipe comes from <span class="mk">[Siobhan](shiv-awn)</span>, who runs a bakery in <span class="mk">[Reading](redding)</span>.</div>
+          </div>
+        </div>
+        <div class="cmp-why"><b>Why it lands:</b> left alone, both words get read wrong. The overrides make them say &ldquo;shiv-awn&rdquo; and &ldquo;redding&rdquo; &mdash; small fix, big credibility.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TIPS -->
+  <section>
+    <div class="kicker">Good to know</div>
+    <h2>A few pointers</h2>
+    <div class="tips">
+      <div class="tip"><b>Close your marks.</b> <code>*</code> and <code>~</code> work in pairs &mdash; one to start, one to end. Forget the closing mark and the effect runs to the end of the line.</div>
+      <div class="tip"><b>Less is more.</b> Emphasize one word per line, not five. If everything&rsquo;s stressed, nothing is.</div>
+      <div class="tip"><b>Stack pauses for drama.</b> One <code>[pause]</code> for a breath; <code>[pause][pause]</code> for a hold; <code>[pause:long]</code> for suspense.</div>
+      <div class="tip"><b>Spell it like it sounds.</b> In a pronunciation override, write the parentheses phonetically &mdash; <code>(nyawki)</code>, not <code>(gnocchi)</code>.</div>
+      <div class="tip"><b>Preview, then commit.</b> Generate a line, listen, adjust a mark, regenerate. It&rsquo;s fast because it&rsquo;s local.</div>
+      <div class="tip"><b>Punctuation first.</b> Get the commas and periods right before adding marks &mdash; they carry most of the rhythm on their own.</div>
+    </div>
+  </section>
+
+  <div class="final">
+    <h2>Your turn.</h2>
+    <p>Grab the free trial, paste a script, and try a couple of marks.</p>
+    <a class="btn" href="/#download">Start your free trial</a>
+  </div>
+
+  <footer>
+    <span style="color:var(--off);font-weight:700;">Voice</span><span style="color:var(--coral);font-weight:700;">Quill</span> · Local AI voiceovers for Mac · <a href="mailto:hello@voicequill.studio" style="color:var(--secondary)">hello@voicequill.studio</a>
+  </footer>
+
+</div>
+</body>
+</html>
