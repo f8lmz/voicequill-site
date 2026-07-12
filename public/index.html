@@ -101,7 +101,7 @@ a{text-decoration:none;color:inherit}
 .pricing{background:var(--off);color:var(--near)}
 .pricing .section-kicker{color:var(--coral)}
 .pricing .section-copy{color:var(--graphite)}
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:760px;margin:0 auto}
 .tier{background:#E8E2D7;border:1px solid rgba(16,14,11,.08);border-radius:24px;padding:34px 30px;display:flex;flex-direction:column}
 .tier-featured{background:var(--near);color:var(--off);border:1px solid var(--near)}
 .tier-name{font-size:14px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--graphite)}
@@ -343,25 +343,10 @@ a{text-decoration:none;color:inherit}
             <li>Free updates</li>
             <li>No subscription. Ever.</li>
           </ul>
-          <a class="btn btn-light" id="buyPlus" href="https://voicequill.lemonsqueezy.com/checkout/buy/d4d36abf-ea85-4654-8293-fc428f699361">Get Plus &mdash; &euro;39</a>
-          <p class="tier-fine">One-time payment. We email your key &mdash; enter it in the app to unlock. Already on the trial? Same app, no re-download.</p>
-        </div>
-
-        <!-- Pro (€59, future) -->
-        <div class="tier">
-          <div class="tier-badge">Coming soon</div>
-          <div class="tier-name">Pro</div>
-          <div class="price">&euro;59 <small>once</small></div>
-          <div class="price-sub">In development</div>
-          <p class="tier-desc">The next generation of VoiceQuill. In the works &mdash; here&rsquo;s what&rsquo;s planned.</p>
-          <ul class="features">
-            <li>Everything in Plus</li>
-            <li>Dialogue mode &mdash; cast two voices</li>
-            <li>A larger voice library</li>
-            <li>iOS companion</li>
-          </ul>
-          <a class="btn btn-dark" href="#keep">Get notified</a>
-          <p class="tier-fine">No date yet &mdash; we&rsquo;ll email when it lands.</p>
+          <!-- LAUNCH: when LS is activated, restore the checkout button:
+               <a class="btn btn-light" id="buyPlus" href="https://voicequill.lemonsqueezy.com/checkout/buy/d4d36abf-ea85-4654-8293-fc428f699361">Get Plus &mdash; &euro;39</a> -->
+          <a class="btn btn-light" href="#keep">Coming soon</a>
+          <p class="tier-fine">Available soon. Join the list and we&rsquo;ll email you the moment it&rsquo;s ready.</p>
         </div>
       </div>
     </div>
