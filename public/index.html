@@ -395,22 +395,21 @@ a{text-decoration:none;color:inherit}
     <button class="modal-close" id="dlClose" aria-label="Close">&times;</button>
     <div id="dlStart">
       <div class="qchip">Q</div>
-      <h3 id="dlTitle">Get VoiceQuill for Mac</h3>
-      <p>Enter your email to receive your registration key. Your copy stays tied to you &mdash; that&rsquo;s how we keep it private. No accounts, and nothing tracked inside the app.</p>
+      <h3 id="dlTitle">Start your free trial</h3>
+      <p>Enter your email and we&rsquo;ll send your trial key &mdash; one month, on the house. It runs entirely on your Mac: no account, nothing uploaded.</p>
       <form class="modal-form" id="dlForm" novalidate>
-        <input type="hidden" name="subject" value="VoiceQuill — registration key request">
-        <input type="checkbox" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off">
+        <input type="checkbox" name="hp" class="hp-field" tabindex="-1" autocomplete="off">
         <input type="email" name="email" class="modal-input" placeholder="your@email.com" required aria-label="Email address" autocomplete="email">
         <label class="modal-consent"><input type="checkbox" name="updates" value="yes"> Also keep me posted on product updates. No spam &mdash; only when there&rsquo;s something real.</label>
-        <button type="submit" class="btn btn-primary">Send my key &amp; download</button>
+        <button type="submit" class="btn btn-primary">Email my trial key</button>
       </form>
-      <p class="modal-fine">macOS 14+ · ~85 MB · Free 1-month key</p>
+      <p class="modal-fine">macOS 14+ · Free 1-month trial · 3 voices, up to 3,000 characters</p>
     </div>
     <div id="dlDone" style="display:none">
       <div class="qchip">Q</div>
       <h3>Check your inbox.</h3>
-      <p>Your 1-month registration key is on its way. Download the app below, then paste your key to unlock it.</p>
-      <a class="dl-link" id="dlLink" href="#" rel="noopener">Download VoiceQuill (.zip)</a>
+      <p>Your free trial key is on its way. Download the app below, then paste your key to unlock it.</p>
+      <a class="dl-link" id="dlLink" href="#" target="_blank" rel="noopener">Download VoiceQuill</a>
     </div>
   </div>
 </div>
@@ -428,7 +427,7 @@ a{text-decoration:none;color:inherit}
   // ═══════════════════════════════════════════════════════════════
   //  CONFIG — Felix: fill these three in before going live
   // ═══════════════════════════════════════════════════════════════
-  const DOWNLOAD_URL   = 'https://github.com/f8lmz/voicequill-releases/releases/download/v1.0.1/VoiceQuillV2-1.0.1.zip';
+  const DOWNLOAD_URL   = 'https://github.com/f8lmz/voicequill-releases/releases/latest';
   const META_PIXEL_ID  = '4340046742874079';    // Meta (Instagram/Facebook) Pixel
   const TIKTOK_PIXEL_ID = 'D970B1RC77UEFAL2HTOG'; // TikTok Pixel
   const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwvjnkrq';
@@ -478,10 +477,9 @@ a{text-decoration:none;color:inherit}
     }
   });
 
-  // ─── Email-gated download modal ───
-  // Per Felix: no download without an email. The email captures the opt-in AND
-  // is where the 1-month registration key is sent. Submits to the same Formspree
-  // endpoint; the .zip link is revealed after a successful submit.
+  // ─── Email-gated trial download ───
+  // No download without an email. Submits to /api/license/trial, which mints a
+  // 30-day trial key (t:trial), emails it via Resend, and returns the download link.
   const dlModal = document.getElementById('dlModal');
   const dlForm  = document.getElementById('dlForm');
   const dlStart = document.getElementById('dlStart');
@@ -515,27 +513,31 @@ a{text-decoration:none;color:inherit}
     const email = dlInput.value.trim();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { dlInput.focus(); return; }
 
-    const payload = Object.fromEntries(new FormData(dlForm).entries());
+    const payload = {
+      email,
+      updates: dlForm.querySelector('input[name=updates]').checked,
+      hp: dlForm.querySelector('input[name=hp]').checked
+    };
     dlBtn.textContent = 'Sending…'; dlBtn.disabled = true; dlInput.disabled = true;
 
     try {
-      const r = await fetch(FORMSPREE_ENDPOINT, {
+      const r = await fetch('/api/license/trial', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       const d = await r.json();
-      if (d.ok || d.success) {
-        dlLink.href = DOWNLOAD_URL;
+      if (r.ok && d.ok) {
+        dlLink.href = d.download || DOWNLOAD_URL;
         dlStart.style.display = 'none';
         dlDone.style.display = 'block';
         trackEvent('Lead');
       } else {
-        throw new Error((d.errors && d.errors[0] && d.errors[0].message) || 'Submission failed');
+        throw new Error(d.error || 'Submission failed');
       }
     } catch (err) {
       dlBtn.textContent = 'Try again'; dlBtn.disabled = false; dlInput.disabled = false;
-      console.error('Download request error:', err);
+      console.error('Trial request error:', err);
     }
   });
 
