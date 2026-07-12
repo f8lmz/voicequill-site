@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Thank you — VoiceQuill</title>
+<meta name="robots" content="noindex" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--coral:#FE5530;--near:#100E0B;--near-2:#1A1816;--off:#F2EFE7;--secondary:#8C887F;--muted:#6E6B63;--line:#2B2722}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Geist',system-ui,-apple-system,sans-serif;background:var(--near);color:var(--off);line-height:1.55;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px;
+    background:radial-gradient(circle at 50% 0%, rgba(254,85,48,.14), transparent 45%), var(--near);}
+  a{color:var(--coral);text-decoration:none}
+  .card{max-width:460px;width:100%;text-align:center}
+  .wordmark{font-weight:900;font-size:24px;letter-spacing:-.045em;margin-bottom:36px}
+  .wordmark .v{color:var(--off)}.wordmark .q{color:var(--coral)}
+  .check{width:64px;height:64px;border-radius:50%;background:var(--coral);display:flex;align-items:center;justify-content:center;margin:0 auto 26px}
+  .check svg{width:32px;height:32px;fill:var(--near)}
+  h1{font-size:32px;font-weight:900;letter-spacing:-.03em;margin-bottom:12px}
+  .lead{font-size:17px;color:#D5CEC3;margin-bottom:30px}
+  .steps{background:var(--near-2);border:1px solid var(--line);border-radius:16px;padding:22px 24px;text-align:left;margin-bottom:26px}
+  .steps h2{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary);margin-bottom:14px}
+  .steps ol{margin:0;padding-left:20px;color:#D5CEC3;font-size:15px}
+  .steps li{margin-bottom:8px}
+  .steps li:last-child{margin-bottom:0}
+  .fine{font-size:13px;color:var(--muted);margin-bottom:26px}
+  .btn{display:inline-block;background:var(--coral);color:var(--near);font-weight:700;font-size:15px;border-radius:999px;padding:13px 26px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="wordmark"><span class="v">Voice</span><span class="q">Quill</span></div>
+    <div class="check" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+    </div>
+    <h1>You&rsquo;re in.</h1>
+    <p class="lead">Payment received. Your VoiceQuill&nbsp;Plus license key is on its way to your inbox &mdash; usually within a minute.</p>
+
+    <div class="steps">
+      <h2>To activate</h2>
+      <ol>
+        <li>Open the email from VoiceQuill and copy your key.</li>
+        <li>Open VoiceQuill (already on the trial? same app &mdash; no re-download).</li>
+        <li>Paste the key when prompted. Done.</li>
+      </ol>
+    </div>
+
+    <p class="fine">Key not there in a few minutes? Check spam, or email <a href="mailto:hello@voicequill.studio">hello@voicequill.studio</a> and we&rsquo;ll sort it.</p>
+    <a class="btn" href="/">Back to VoiceQuill</a>
+  </div>
+
+  <script>
+    // Fire the TikTok Purchase (CompletePayment) event — TikTok only; Meta's Purchase
+    // is handled natively by LemonSqueezy, so we don't double-count it here.
+    // Consent-gated (same vq_consent choice as the main site) and guarded against
+    // refresh re-fires. Meta is intentionally NOT fired on this page.
+    (function () {
+      var TIKTOK_PIXEL_ID = 'D970B1RC77UEFAL2HTOG';
+      try {
+        if (localStorage.getItem('vq_consent') !== 'accepted') return;      // no consent → no tracking
+        if (sessionStorage.getItem('vq_purchase_tracked') === '1') return;   // already fired this session
+      } catch (e) { return; }
+
+      !function (w, d, t) {
+        w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+        ttq.load(TIKTOK_PIXEL_ID);
+        ttq.page();
+        ttq.track('CompletePayment', {
+          content_type: 'product',
+          content_id: '1210583',
+          content_name: 'VoiceQuill Plus',
+          quantity: 1,
+          price: 39,
+          value: 39,
+          currency: 'EUR'
+        });
+      }(window, document, 'ttq');
+
+      try { sessionStorage.setItem('vq_purchase_tracked', '1'); } catch (e) {}
+    })();
+  </script>
+</body>
+</html>
