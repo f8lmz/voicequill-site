@@ -1,5 +1,19 @@
 # VoiceQuill — Automated key generation (LemonSqueezy)
 
+> ## ⚠️ LIVE STATUS NOTE (2026-07-12) — read this before touching key delivery
+> **Plus is LIVE and working. The key is delivered by LemonSqueezy's OWN invoice email**, NOT our
+> branded Resend email. Our webhook currently does **nothing** for live orders — on purpose —
+> because the Vercel env vars still hold the **test-mode** IDs:
+> - Vercel now: `LEMONSQUEEZY_PLUS_VARIANT_ID=1892597`, `LEMONSQUEEZY_PLUS_PRODUCT_ID=1210583` (TEST)
+> - **LIVE IDs:** variant **`1903307`**, product **`1217376`**
+>
+> A live order carries the live IDs → the webhook's tier map returns null → it ignores the order →
+> only LS's invoice email delivers the key (verified: real purchase → key received → app unlocked).
+>
+> **To switch to our branded email later:** set the two env vars to the **live** IDs above, confirm
+> `LICENSE_MODE=lemonsqueezy`, redeploy — AND then suppress/adjust LS's own invoice email, or buyers
+> get the key in TWO emails (same key). Left as-is at launch by choice: LS delivery works, simplest.
+
 **Goal:** a customer buys **VoiceQuill Plus (€39)** via LemonSqueezy → a perpetual, tiered
 license key is minted server-side and emailed automatically. No manual minting.
 
