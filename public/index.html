@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>VoiceQuill — Local AI voiceovers for Mac</title>
-<meta name="description" content="Give your ideas a voice. Studio-quality narration created entirely on your Mac. No cloud, no account, no subscription." />
+<title>VoiceQuill — Local AI voiceover for Mac. No cloud, no subscription.</title>
+<meta name="description" content="Generate voiceovers on your Mac. Scripts never leave your machine. Inline pronunciation control, pay once. iOS coming soon." />
+<meta property="og:title" content="VoiceQuill — Local AI voiceover for Mac. No cloud, no subscription." />
+<meta property="og:description" content="Generate voiceovers on your Mac. Scripts never leave your machine. Inline pronunciation control, pay once. iOS coming soon." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.voicequill.studio/" />
+<meta name="twitter:card" content="summary_large_image" />
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -188,6 +193,24 @@ a{text-decoration:none;color:inherit}
 .ex-script{background:#0B0907;border:1px solid rgba(242,239,231,.08);border-radius:12px;padding:16px;font-size:14.5px;line-height:1.5;color:#E4DED2;margin-top:4px}
 .ex-mk{color:var(--coral);font-weight:600}
 .ex-cta{text-align:center;margin-top:34px}
+
+/* Features / audience — 2x2 grid of concrete blocks */
+.features-4{grid-template-columns:repeat(2,1fr)}
+.features-4 .card{min-height:0}
+@media(max-width:760px){.features-4{grid-template-columns:1fr}}
+
+/* Pricing statement + small print (light section) */
+.price-statement{text-align:center;font-size:19px;font-weight:700;letter-spacing:-.02em;color:var(--near);max-width:640px;margin:34px auto 0}
+.price-smallprint{text-align:center;font-size:12px;color:var(--muted);margin:12px auto 0}
+
+/* FAQ accordion */
+.faq{max-width:760px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:20px 0;font-size:17px;font-weight:500;color:var(--off);display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--coral);font-size:24px;font-weight:400;line-height:1;flex:0 0 auto}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{color:var(--secondary);font-size:15px;line-height:1.6;margin:0;padding:0 0 20px}
 </style>
 </head>
 <body>
@@ -196,9 +219,10 @@ a{text-decoration:none;color:inherit}
 <header class="container nav">
   <a class="wordmark" href="#"><span class="voice">Voice</span><span class="quill">Quill</span></a>
   <nav class="navlinks">
-    <a href="#why">Why</a>
+    <a href="#features">Features</a>
     <a href="#examples">Examples</a>
     <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
   </nav>
   <a class="navcta" href="#download">Download</a>
 </header>
@@ -206,29 +230,26 @@ a{text-decoration:none;color:inherit}
 <main>
 
   <!--
-    HERO SUBHEAD A/B POOL (retained from v1.0 — rotate as needed)
+    HERO SUBHEAD RESERVE POOL (Aug 2026 — rotate as needed)
     ──────────────────────────────────────────────────────────────
-    A (active) — "Type a script, pick a voice, hit generate. Studio-quality
-                  narration, created entirely on your Mac."
-    B (keyword/paid) — "Local AI voiceovers for Mac. Studio-quality audio,
-                  generated on your device — no cloud, no subscription."
-    C (mechanical/reserve) — "Type a script. Pick a voice. Hit generate.
-                  Done — locally."
-    D (privacy/reserve) — "Studio-quality voiceovers, generated on your Mac.
-                  Not in the cloud."
+    Active — "AI voiceover, generated on your Mac. No cloud. No account. No subscription."
+    B (keyword-rich / paid search / cold) — "Local AI voiceover for Mac. Studio-quality
+                  narration generated on your device — no cloud, no subscription."
+    C (mechanical) — "Type a script. Pick a voice. Hit generate. Nothing leaves your Mac."
+    D (pro wedge / retargeting / NDA) — "The voiceover app for scripts that can't leave your Mac."
   -->
   <section class="container hero">
     <div>
       <div class="eyebrow">macOS · iOS coming soon</div>
       <h1>Give your ideas a voice.</h1>
       <div class="tagline">FAST. PRIVATE. UNIQUELY YOURS.</div>
-      <p class="lead">Type a script, pick a voice, hit generate. Studio-quality narration, created entirely on your Mac. No cloud. No account. No subscription.</p>
+      <p class="lead">AI voiceover, generated on your Mac. No cloud. No account. No subscription.</p>
 
       <div class="cta-row">
-        <a class="btn btn-primary" href="#download">Download for Mac</a>
+        <a class="btn btn-primary" href="#download">Start your free month</a>
         <a class="btn btn-secondary" href="#pricing">See pricing</a>
       </div>
-      <p class="note">Free to try · macOS 14+ · Nothing leaves your machine</p>
+      <p class="note">Free 30-day trial · No card · macOS · iOS coming soon</p>
 
       <!-- Keep-me-informed (replaces the old "waitlist" framing) -->
       <div class="keep">
@@ -272,34 +293,35 @@ a{text-decoration:none;color:inherit}
     <div class="container proof-grid">
       <div class="proof-item"><strong>Local</strong>Generation runs on your Mac. Nothing is uploaded.</div>
       <div class="proof-item"><strong>Fast</strong>No upload, no queue, no render wait.</div>
-      <div class="proof-item"><strong>Yours</strong>10 voices, each tunable to your sound.</div>
+      <div class="proof-item"><strong>Yours</strong>Every voice included, each tunable to your sound.</div>
       <div class="proof-item"><strong>One-time</strong>Pay once. No subscription, ever.</div>
     </div>
   </section>
 
-  <section id="why" class="container section">
+  <section id="features" class="container section">
     <div class="section-head">
       <div>
-        <div class="section-kicker">Why VoiceQuill</div>
-        <h2>The voice for creators who&rsquo;d rather not be the voice.</h2>
+        <div class="section-kicker">Features</div>
+        <h2>Narration you own.</h2>
       </div>
-      <p class="section-copy">Most people don&rsquo;t need a sprawling voice platform. They need a clean way to turn a script into narration they own &mdash; and publish.</p>
+      <p class="section-copy">Built for narration &mdash; local, repeatable, yours. Not a sprawling voice platform.</p>
     </div>
-    <div class="cards">
+    <div class="cards features-4">
       <article class="card">
-        <div class="card-number">01 — Fast</div>
-        <h3>Fast by architecture.</h3>
-        <p>VoiceQuill runs on your Mac. No upload cycle. No rendering queue. Type, generate, adjust, export &mdash; then move on.</p>
+        <h3>Nothing uploads. Ever.</h3>
+        <p>Generation runs on your Mac &mdash; Apple silicon, no server round-trip. Turn Wi-Fi off and it still works. There&rsquo;s no login because there&rsquo;s nothing to log into.</p>
       </article>
       <article class="card">
-        <div class="card-number">02 — Private</div>
-        <h3>Private by default.</h3>
-        <p>No account. No login. No cloud upload. Your scripts never leave your Mac &mdash; because there&rsquo;s no server to send them to. Private by architecture, not by promise.</p>
+        <h3>Every voice, included.</h3>
+        <p>American and British English, male and female. No per-voice fees, no credit packs. Pro voices are on the roadmap.</p>
       </article>
       <article class="card">
-        <div class="card-number">03 — Yours</div>
-        <h3>Yours by design.</h3>
-        <p>10 voices, each tunable for pitch, warmth, and tone. Mark your pauses and stress so the delivery is yours &mdash; not a flat read.</p>
+        <h3>Delivery you can write down.</h3>
+        <p>Fix a brand name once with an inline pronunciation override. Mark stress. Set pauses. The script carries the performance &mdash; same input, same delivery, every take.</p>
+      </article>
+      <article class="card">
+        <h3>Pay once.</h3>
+        <p>&euro;39, one time. Updates included. No meter counting your characters, no renewal email next month.</p>
       </article>
     </div>
   </section>
@@ -329,14 +351,42 @@ a{text-decoration:none;color:inherit}
     <div class="ex-cta"><a class="btn btn-secondary" href="how-to.html">See all examples &amp; the cheat sheet &rarr;</a></div>
   </section>
 
+  <section id="audience" class="container section">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Who it&rsquo;s for</div>
+        <h2>Made for work that stays private.</h2>
+      </div>
+      <p class="section-copy">If the script matters, it shouldn&rsquo;t ride to a server.</p>
+    </div>
+    <div class="cards features-4">
+      <article class="card">
+        <h3>Client work under NDA</h3>
+        <p>Agency scripts, brand drafts, unreleased campaigns. Nothing uploads &mdash; so the security review is one sentence: it runs locally.</p>
+      </article>
+      <article class="card">
+        <h3>Faceless channels</h3>
+        <p>Daily output means endless retakes. There&rsquo;s no character meter here. Generate all week; the price doesn&rsquo;t move.</p>
+      </article>
+      <article class="card">
+        <h3>Courses &amp; internal training</h3>
+        <p>Material that isn&rsquo;t public yet stays that way. Record the whole curriculum without it touching a third-party server.</p>
+      </article>
+      <article class="card">
+        <h3>Stories &amp; long reads</h3>
+        <p>Regenerate one paragraph without re-rolling the chapter. Marked-up scripts keep the delivery consistent from part one to part twelve.</p>
+      </article>
+    </div>
+  </section>
+
   <section id="pricing" class="section pricing">
     <div class="container">
       <div class="section-head">
         <div>
           <div class="section-kicker">Pricing</div>
-          <h2>Pay once. Own it.</h2>
+          <h2>Pay once. That&rsquo;s the model.</h2>
         </div>
-        <p class="section-copy">Different tools for different jobs. If you just need a voice on your Mac, you shouldn&rsquo;t be renting it.</p>
+        <p class="section-copy">No subscription. No credits. Updates included.</p>
       </div>
 
       <div class="price-grid">
@@ -366,11 +416,11 @@ a{text-decoration:none;color:inherit}
           <div class="price-sub">One payment &mdash; yours forever</div>
           <p class="tier-desc">The full app, unlocked. No limits, every voice, yours to keep.</p>
           <ul class="features">
-            <li>All 10 voices</li>
+            <li>Every voice included</li>
             <li>No character limit</li>
             <li>On-device generation</li>
-            <li>Pitch, warmth &amp; tone controls</li>
-            <li>Inline pauses &amp; emphasis</li>
+            <li>Inline pronunciation control</li>
+            <li>Stress &amp; pause marks</li>
             <li>Free updates</li>
             <li>No subscription. Ever.</li>
           </ul>
@@ -378,6 +428,27 @@ a{text-decoration:none;color:inherit}
           <p class="tier-fine">One-time payment. We email your key &mdash; enter it in the app to unlock. Already on the trial? Same app, no re-download.</p>
         </div>
       </div>
+
+      <p class="price-statement">Independence isn&rsquo;t a feature. It&rsquo;s the business model.</p>
+      <p class="price-smallprint">Sold through LemonSqueezy.</p>
+    </div>
+  </section>
+
+  <section id="faq" class="container section">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">FAQ</div>
+        <h2>Questions, answered.</h2>
+      </div>
+    </div>
+    <div class="faq">
+      <details><summary>Does it really work offline?</summary><p>Yes. The first launch downloads the voice model &mdash; one time, a few hundred MB. After that, turn Wi-Fi off and generate.</p></details>
+      <details><summary>Can you see my scripts?</summary><p>No &mdash; and not as a policy promise, as an architecture fact. Generation happens on your Mac. We don&rsquo;t run a server that could see your text.</p></details>
+      <details><summary>Is there a subscription?</summary><p>No. The trial is free for a month. Plus is &euro;39 once. Updates are included.</p></details>
+      <details><summary>I work under NDA. Can I use this?</summary><p>That&rsquo;s the job it was built for. Nothing you type or generate leaves your machine, which keeps the compliance conversation short.</p></details>
+      <details><summary>How does it compare to cloud voice platforms?</summary><p>Different tools for different jobs. Cloud platforms are built for expressive acting, dubbing, and voice agents at enterprise scale. VoiceQuill is built for narration you own &mdash; local, one-time, repeatable. Plenty of people use both.</p></details>
+      <details><summary>How do I control pronunciation and delivery?</summary><p>In the script itself. Inline pronunciation overrides fix names and brands for good, stress marks shape emphasis, and pauses go where you put them. The same script produces the same delivery, every generation.</p></details>
+      <details><summary>When is iOS coming?</summary><p>It&rsquo;s on the roadmap, and the architecture was built to travel. Mac first, done properly.</p></details>
     </div>
   </section>
 
@@ -386,7 +457,7 @@ a{text-decoration:none;color:inherit}
 <footer class="container footer">
   <a class="wordmark" href="#"><span class="voice">Voice</span><span class="quill">Quill</span></a>
   <div class="footer-meta">
-    <span>macOS · iOS coming soon</span>
+    <span>Made in Amsterdam · macOS · iOS coming soon</span>
     <a href="mailto:hello@voicequill.studio">hello@voicequill.studio</a>
     <a href="privacy.html">Privacy</a>
     <a href="#" onclick="if(window.vqOpenConsent){window.vqOpenConsent();}return false;">Cookie settings</a>
