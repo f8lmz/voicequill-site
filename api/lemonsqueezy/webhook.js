@@ -20,8 +20,15 @@
 //   RESEND_API_KEY                 Resend key (both modes)
 //   LEMONSQUEEZY_PLUS_VARIANT_ID   (ed25519 mode) variant → "plus"
 //   LEMONSQUEEZY_PLUS_PRODUCT_ID   (lemonsqueezy mode) product → "plus"  (e.g. 1210583)
-//   LEMONSQUEEZY_PRO_VARIANT_ID / LEMONSQUEEZY_PRO_PRODUCT_ID  (later, Pro)
+//   LEMONSQUEEZY_PRO_VARIANT_ID / LEMONSQUEEZY_PRO_PRODUCT_ID  (Pro)
 //   LICENSE_MODE                   "ed25519" | "lemonsqueezy"  (default "ed25519")
+//
+// Plus→Pro upgrade discount (see maybeCreateUpgradeDiscount) also needs:
+//   LEMONSQUEEZY_API_KEY           LS API key (Settings → API; shown once)
+//   LEMONSQUEEZY_STORE_ID          numeric store id
+//   LEMONSQUEEZY_PRO_VARIANT_ID    Pro variant (e.g. 2091613) — the discount is limited to it
+//   LEMONSQUEEZY_PLUS_PRODUCT_ID   LIVE Plus product id — identifies Plus purchases to discount
+// and the webhook must be subscribed to `license_key_created`.
 
 import { mintKey } from '../_lib/license.js';
 
@@ -101,6 +108,59 @@ function nameFrom(attr) {
   return (attr.user_name || '').trim() || (attr.user_email ? attr.user_email.split('@')[0] : 'there');
 }
 
+// ─── Plus → Pro upgrade discount ───
+// On a Plus purchase, mint a single-use, Pro-only €29 discount whose CODE is the
+// buyer's license key (dashes removed, uppercased) — so /upgrade?key=… can derive
+// the same code with no database. Dormant until all three env vars are set:
+//   LEMONSQUEEZY_API_KEY · LEMONSQUEEZY_STORE_ID · LEMONSQUEEZY_PRO_VARIANT_ID
+// and it only fires for the Plus product (LEMONSQUEEZY_PLUS_PRODUCT_ID). Idempotent:
+// a retried webhook re-POSTs the same code and LS rejects the duplicate, which we swallow.
+async function maybeCreateUpgradeDiscount(attr) {
+  const apiKey = process.env.LEMONSQUEEZY_API_KEY;
+  const storeId = process.env.LEMONSQUEEZY_STORE_ID;
+  const proVariantId = process.env.LEMONSQUEEZY_PRO_VARIANT_ID;
+  if (!apiKey || !storeId || !proVariantId) return;        // feature off until configured
+  if (tierForProduct(attr.product_id) !== 'plus') return;  // only Plus buyers get the Pro discount
+  const licenseKey = attr.key;
+  if (!licenseKey) return;
+
+  const code = licenseKey.replace(/-/g, '').toUpperCase(); // 32 chars, A–Z/0–9 — valid LS code
+  const body = {
+    data: {
+      type: 'discounts',
+      attributes: {
+        name: `Pro upgrade · ${attr.order_id ?? code.slice(0, 8)}`,
+        code,
+        amount: 2900,
+        amount_type: 'fixed',
+        is_limited_to_products: true,
+        is_limited_redemptions: true,
+        max_redemptions: 1,
+        duration: 'once',
+      },
+      relationships: {
+        store: { data: { type: 'stores', id: String(storeId) } },
+        variants: { data: [{ type: 'variants', id: String(proVariantId) }] },
+      },
+    },
+  };
+  const r = await fetch('https://api.lemonsqueezy.com/v1/discounts', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      Accept: 'application/vnd.api+json',
+      'Content-Type': 'application/vnd.api+json',
+    },
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const txt = await r.text();
+    // 422 mentioning the code = it already exists (a retried webhook) → done.
+    if (r.status === 422 && /code/i.test(txt)) return;
+    throw new Error(`discount create ${r.status} ${txt}`);
+  }
+}
+
 export default async function handler(req) {
   if (req.method !== 'POST') return new Response('Method Not Allowed', { status: 405 });
 
@@ -116,6 +176,12 @@ export default async function handler(req) {
   const mode = process.env.LICENSE_MODE || 'ed25519';
 
   try {
+    // Plus → Pro upgrade discount — independent of key-delivery mode. No-op unless
+    // configured and the purchase is Plus. Runs before delivery so a retry still reaches it.
+    if (eventName === 'license_key_created') {
+      await maybeCreateUpgradeDiscount(attr);
+    }
+
     if (mode === 'lemonsqueezy') {
       // LS generated the key; relay it. Device-locked + revocable on the LS side.
       if (eventName !== 'license_key_created') return new Response('ignored', { status: 200 });
